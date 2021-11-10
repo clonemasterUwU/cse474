@@ -50,10 +50,9 @@
 #include <string>
 #include <vector>
 
-  class driver;
+class driver;
 
-
-#line 57 "/home/deal_with/CLionProjects/cse474/bison.h"
+#line 56 "/home/deal_with/CLionProjects/cse474/bison.h"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -187,7 +186,7 @@
 #endif
 
 namespace yy {
-#line 191 "/home/deal_with/CLionProjects/cse474/bison.h"
+#line 190 "/home/deal_with/CLionProjects/cse474/bison.h"
 
 
 
@@ -404,6 +403,7 @@ namespace yy {
       char dummy4[sizeof (int)];
 
       // declare_statement
+      // identifier_exist
       // expression
       char dummy5[sizeof (std::pair<std::string,std::string>)];
 
@@ -412,13 +412,10 @@ namespace yy {
       // identifier_not_exist
       char dummy6[sizeof (std::string)];
 
-      // identifier_exist
-      char dummy7[sizeof (std::unordered_map<std::string,std::string>::iterator)];
-
       // declare_statement_list
       // identifier_exist_list
       // expression_list
-      char dummy8[sizeof (std::vector<std::pair<std::string,std::string>>)];
+      char dummy7[sizeof (std::vector<std::pair<std::string,std::string>>)];
     };
 
     /// The size of the largest semantic type.
@@ -626,19 +623,6 @@ namespace yy {
       {}
 #endif
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::unordered_map<std::string,std::string>::iterator&& v, location_type&& l)
-        : Base (t)
-        , value (std::move (v))
-        , location (std::move (l))
-      {}
-#else
-      basic_symbol (typename Base::kind_type t, const std::unordered_map<std::string,std::string>::iterator& v, const location_type& l)
-        : Base (t)
-        , value (v)
-        , location (l)
-      {}
-#endif
-#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, std::vector<std::pair<std::string,std::string>>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -691,6 +675,7 @@ switch (yytype)
         break;
 
       case 37: // declare_statement
+      case 39: // identifier_exist
       case 45: // expression
         value.template destroy< std::pair<std::string,std::string> > ();
         break;
@@ -699,10 +684,6 @@ switch (yytype)
       case 35: // type_identifier
       case 38: // identifier_not_exist
         value.template destroy< std::string > ();
-        break;
-
-      case 39: // identifier_exist
-        value.template destroy< std::unordered_map<std::string,std::string>::iterator > ();
         break;
 
       case 36: // declare_statement_list
@@ -1712,6 +1693,7 @@ switch (yytype)
         break;
 
       case 37: // declare_statement
+      case 39: // identifier_exist
       case 45: // expression
         value.move< std::pair<std::string,std::string> > (std::move (that.value));
         break;
@@ -1720,10 +1702,6 @@ switch (yytype)
       case 35: // type_identifier
       case 38: // identifier_not_exist
         value.move< std::string > (std::move (that.value));
-        break;
-
-      case 39: // identifier_exist
-        value.move< std::unordered_map<std::string,std::string>::iterator > (std::move (that.value));
         break;
 
       case 36: // declare_statement_list
@@ -1764,6 +1742,7 @@ switch (yytype)
         break;
 
       case 37: // declare_statement
+      case 39: // identifier_exist
       case 45: // expression
         value.copy< std::pair<std::string,std::string> > (YY_MOVE (that.value));
         break;
@@ -1772,10 +1751,6 @@ switch (yytype)
       case 35: // type_identifier
       case 38: // identifier_not_exist
         value.copy< std::string > (YY_MOVE (that.value));
-        break;
-
-      case 39: // identifier_exist
-        value.copy< std::unordered_map<std::string,std::string>::iterator > (YY_MOVE (that.value));
         break;
 
       case 36: // declare_statement_list
@@ -1823,6 +1798,7 @@ switch (yytype)
         break;
 
       case 37: // declare_statement
+      case 39: // identifier_exist
       case 45: // expression
         value.move< std::pair<std::string,std::string> > (YY_MOVE (s.value));
         break;
@@ -1831,10 +1807,6 @@ switch (yytype)
       case 35: // type_identifier
       case 38: // identifier_not_exist
         value.move< std::string > (YY_MOVE (s.value));
-        break;
-
-      case 39: // identifier_exist
-        value.move< std::unordered_map<std::string,std::string>::iterator > (YY_MOVE (s.value));
         break;
 
       case 36: // declare_statement_list
@@ -1898,7 +1870,7 @@ switch (yytype)
   }
 
 } // yy
-#line 1902 "/home/deal_with/CLionProjects/cse474/bison.h"
+#line 1874 "/home/deal_with/CLionProjects/cse474/bison.h"
 
 
 

@@ -612,8 +612,8 @@ static const flex_int16_t yy_rule_linenum[34] =
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "/home/deal_with/CLionProjects/cse474/flex.ll"
-#line 2 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 1 "flex.ll"
+#line 2 "flex.ll"
 # include <cerrno>
 # include <climits>
 # include <cstdlib>
@@ -630,7 +630,7 @@ char *yytext;
 
 #line 632 "/home/deal_with/CLionProjects/cse474/flex.cpp"
 #define YY_NO_INPUT 1
-#line 32 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 32 "flex.ll"
 
     // Code run each time a pattern is matched.
     #define YY_USER_ACTION \
@@ -924,10 +924,10 @@ YY_DECL
 
 	{
 /* %% [7.0] user's declarations go here */
-#line 47 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 47 "flex.ll"
 
 
-#line 50 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 50 "flex.ll"
     // A handy shortcut to the location held by the driver.
     yy::location& loc = drv.location;
     // Code run each time yylex is called.
@@ -1012,146 +1012,146 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 56 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 56 "flex.ll"
 { BEGIN(STATE_COMMENT); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 57 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 57 "flex.ll"
 { BEGIN(INITIAL); }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 58 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 58 "flex.ll"
 { /* ignore the text of the comment */ }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 59 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 59 "flex.ll"
 { /* ignore *'s that aren't part of */ }
 	YY_BREAK
 /* single line comment */
 case 5:
 YY_RULE_SETUP
-#line 61 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 61 "flex.ll"
 { /* ignore single line comment */ }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 62 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 62 "flex.ll"
 { /* ignore white space */ }
 	YY_BREAK
 case 7:
 /* rule 7 can match eol */
 YY_RULE_SETUP
-#line 63 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 63 "flex.ll"
 { /* ignore new line */ }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 65 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 65 "flex.ll"
 return yy::parser::make_MINUS  (loc);
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 66 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 66 "flex.ll"
 return yy::parser::make_PLUS   (loc);
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 67 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 67 "flex.ll"
 return yy::parser::make_STAR   (loc);
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 68 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 68 "flex.ll"
 return yy::parser::make_SLASH  (loc);
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 69 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 69 "flex.ll"
 return yy::parser::make_LPAREN (loc);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 70 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 70 "flex.ll"
 return yy::parser::make_RPAREN (loc);
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 71 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 71 "flex.ll"
 return yy::parser::make_ASSIGN (loc);
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 72 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 72 "flex.ll"
 return yy::parser::make_SEMI (loc);
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 73 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 73 "flex.ll"
 return yy::parser::make_COMMA (loc);
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 74 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 74 "flex.ll"
 return yy::parser::make_DOT (loc);
 	YY_BREAK
 /* keywords */
 case 18:
 YY_RULE_SETUP
-#line 76 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 76 "flex.ll"
 return yy::parser::make_PROGRAM (loc);
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 77 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 77 "flex.ll"
 return yy::parser::make_BEGIN (loc);
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 78 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 78 "flex.ll"
 return yy::parser::make_END (loc);
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 79 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 79 "flex.ll"
 return yy::parser::make_VAR (loc);
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 80 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 80 "flex.ll"
 return yy::parser::make_READ (loc);
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 81 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 81 "flex.ll"
 return yy::parser::make_WRITE (loc);
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 82 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 82 "flex.ll"
 return yy::parser::make_INTEGER (loc);
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 83 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 83 "flex.ll"
 return yy::parser::make_REAL (loc);
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 84 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 84 "flex.ll"
 return yy::parser::make_CHAR (loc);
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 85 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 85 "flex.ll"
 return yy::parser::make_BOOLEAN (loc);
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 87 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 87 "flex.ll"
 {
     errno = 0;
     long n = strtol (yytext, nullptr, 10);
@@ -1163,7 +1163,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 95 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 95 "flex.ll"
 {
     errno = 0;
     double n = strtod (yytext,nullptr);
@@ -1174,34 +1174,34 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 102 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 102 "flex.ll"
 {
     return yy::parser::make_SV_BOOL(strcmp(yytext,"true")==0,loc);
 }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 105 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 105 "flex.ll"
 return yy::parser::make_SV_CHAR(yytext[1],loc);
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 107 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 107 "flex.ll"
 return yy::parser::make_IDENTIFIER (yytext, loc);
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 110 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 110 "flex.ll"
 throw yy::parser::syntax_error(loc, "invalid character: " + std::string(yytext));
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(STATE_COMMENT):
-#line 112 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 112 "flex.ll"
 return yy::parser::make_EOF (loc);
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 113 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 113 "flex.ll"
 ECHO;
 	YY_BREAK
 #line 1208 "/home/deal_with/CLionProjects/cse474/flex.cpp"
@@ -2309,7 +2309,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 113 "/home/deal_with/CLionProjects/cse474/flex.ll"
+#line 113 "flex.ll"
 
 
 void

@@ -11,8 +11,7 @@
 #include <string>
 #include <vector>
 
-  class driver;
-
+class driver;
 }
 
 // The parsing context.
@@ -72,7 +71,7 @@
 %type <std::vector<std::pair<std::string,std::string>>> expression_list;
 %type <std::string> identifier_not_exist;
 %type <std::string> type_identifier;
-%type <std::unordered_map<std::string,std::string>::iterator> identifier_exist;
+%type <std::pair<std::string,std::string>> identifier_exist;
 
 
 
@@ -128,8 +127,8 @@ declare_statement_list:
     }
     |   declare_statement_list COMMA declare_statement 
     {
-       $1.push_back(std::move($3));
-       $$ = std::move($1);
+        $1.push_back(std::move($3));
+        $$ = std::move($1);
     }
     ;
 
@@ -164,9 +163,9 @@ declare_statement:
     }
     |   identifier_not_exist ":=" identifier_exist
     {
-        drv.buffer << "store " << $3->first << ", " << $1 << '\n';
-        drv.symbol_table[$1]=$3->second;
-        $$=std::make_pair($1,$3->second);
+        drv.buffer << "store " << $3.first << ", " << $1 << '\n';
+        drv.symbol_table[$1]=$3.second;
+        $$=std::make_pair($1,$3.second);
     }
     ;
 
@@ -209,18 +208,26 @@ statement:
     }
     |   identifier_exist ":=" expression ";"
     {
-
+        if($3.second != $1.second){
+            if($1.second!=drv.INT && $1.second!=drv.REAL){
+                throw yy::parser::syntax_error(drv.location,"cannot assign "+$3.second+" to a "+$1.second+" variables");
+            }
+            auto temp = drv.get_temp_name();
+            drv.output << ($1.second == drv.INT ? "rtoi ":"itor ") << $3.first << ", " << temp << '\n';
+            $3.first = std::move(temp);
+        }
+        drv.output << "store " << $3.first << ", " << $1.first << '\n';
     }
     ;
 
 identifier_exist_list:
         identifier_exist
     {
-        $$=std::vector<std::pair<std::string,std::string>>{*$1};
+        $$=std::vector<std::pair<std::string,std::string>>{std::move($1)};
     }
     |   identifier_exist_list "," identifier_exist
     {
-        $1.push_back(*$3);
+        $1.push_back(std::move($3));
         $$=std::move($1);
     }
     ;
@@ -233,6 +240,7 @@ expression_list:
     |   expression_list "," expression
     {
         $1.push_back(std::move($3));
+        $$ = std::move($1);
     }
     ;
 
@@ -261,12 +269,24 @@ expression:
     }
     |   identifier_exist
     {
-        $$ = *$1;
+        $$ = std::move($1);
     }
-    |   SV_INT {}
-    |   SV_CHAR {}
-    |   SV_REAL {}
-    |   SV_BOOL {}
+    |   SV_INT
+    {
+        $$ = make_pair(std::to_string($1),drv.INT);
+    }
+    |   SV_CHAR 
+    {
+        $$ = make_pair("'"+$1+'\'',drv.CHAR);
+    }
+    |   SV_REAL 
+    {
+        $$ = make_pair(std::to_string($1),drv.REAL);
+    }
+    |   SV_BOOL 
+    {
+        $$ = make_pair(std::to_string(($1?1:0)),drv.BOOL);
+    }
     ;
 %%
 

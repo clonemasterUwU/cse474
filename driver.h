@@ -18,7 +18,6 @@ typedef std::pair<std::string,std::string > symbol_type;
 // ... and declare it for the parser's sake.
 YY_DECL;
 
-// Conducting the whole scanning and parsing of Calc++.
 class driver {
 
 public:
@@ -48,12 +47,12 @@ public:
     // The token's location used by the scanner.
     yy::location location;
 
-    std::unordered_map<std::string,std::string>::iterator find_symbol(const std::string& symbol_name){
+    symbol_type find_symbol(const std::string& symbol_name){
         auto p = symbol_table.find(symbol_name);
         if(p==symbol_table.end()){
             throw yy::parser::syntax_error (location,"variable "+symbol_name+" is not declared");
         }
-        return p;
+        return symbol_type {*p};
     }
     void symbol_not_exist(const std::string& symbol_name){
         if(symbol_table.find(symbol_name)!=symbol_table.end()){
@@ -75,18 +74,16 @@ public:
         if(a.second == REAL || b.second == REAL){
             if(a.second==INT){
                 std::string temp = get_temp_name();
-                output << "declare " << temp << ", real\n" << "iotr " << a.first << ", " << temp << '\n';
-                symbol_table[temp] = REAL;
+                output << "declare " << temp << ", real\n" << "itor " << a.first << ", " << temp << '\n';
                 a.second = REAL;
                 a.first = std::move(temp);
             }
             if(b.second==INT){
                 std::string temp = get_temp_name();
                 output << "declare " << temp << ", real\n"
-                << "iotr " << a.first << ", " << temp << '\n';
-                symbol_table[temp] = REAL;
-                a.second = REAL;
-                a.first = std::move(temp);
+                << "itor " << b.first << ", " << temp << '\n';
+                b.second = REAL;
+                b.first = std::move(temp);
             }
         }
     }
