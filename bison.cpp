@@ -757,7 +757,7 @@ namespace yy {
                 }
             }
             for(auto p:yystack_[1].value.as < std::vector<std::pair<std::string,std::string>> > ()){
-                drv.output << "declare " << p.first << "," << (yystack_[2].value.as < std::string > ()==drv.REAL?"real":"integer") << '\n';
+                drv.output << "declare " << p.first << "," << yystack_[2].value.as < std::string > () << '\n';
             }
             drv.output << drv.buffer.rdbuf();
             drv.buffer.clear();
@@ -901,16 +901,14 @@ namespace yy {
 #line 204 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         for(auto& p:yystack_[2].value.as < std::vector<std::pair<std::string,std::string>> > ()){
-
-            std::cerr << p.first << ' ' << p.second << '\n';
             drv.output << "write " << p.first << ", " << p.second << '\n';
         }
     }
-#line 910 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 908 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 27:
-#line 212 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 210 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         if(yystack_[1].value.as < std::pair<std::string,std::string> > ().second != yystack_[3].value.as < std::pair<std::string,std::string> > ().second){
             if(yystack_[3].value.as < std::pair<std::string,std::string> > ().second!=drv.INT && yystack_[3].value.as < std::pair<std::string,std::string> > ().second!=drv.REAL){
@@ -922,125 +920,125 @@ namespace yy {
         }
         drv.output << "store " << yystack_[1].value.as < std::pair<std::string,std::string> > ().first << ", " << yystack_[3].value.as < std::pair<std::string,std::string> > ().first << '\n';
     }
-#line 926 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 924 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 28:
-#line 227 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 225 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::vector<std::pair<std::string,std::string>> > ()=std::vector<std::pair<std::string,std::string>>{std::move(yystack_[0].value.as < std::pair<std::string,std::string> > ())};
     }
-#line 934 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 932 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 29:
-#line 231 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 229 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yystack_[2].value.as < std::vector<std::pair<std::string,std::string>> > ().push_back(std::move(yystack_[0].value.as < std::pair<std::string,std::string> > ()));
         yylhs.value.as < std::vector<std::pair<std::string,std::string>> > ()=std::move(yystack_[2].value.as < std::vector<std::pair<std::string,std::string>> > ());
     }
-#line 943 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 941 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 30:
-#line 239 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 237 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::vector<std::pair<std::string,std::string>> > ()=std::vector<std::pair<std::string,std::string>>{std::move(yystack_[0].value.as < std::pair<std::string,std::string> > ())};
     }
-#line 951 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 949 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 31:
-#line 243 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 241 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yystack_[2].value.as < std::vector<std::pair<std::string,std::string>> > ().push_back(std::move(yystack_[0].value.as < std::pair<std::string,std::string> > ()));
         yylhs.value.as < std::vector<std::pair<std::string,std::string>> > () = std::move(yystack_[2].value.as < std::vector<std::pair<std::string,std::string>> > ());
     }
-#line 960 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 958 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 32:
-#line 253 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 251 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::string> > () = drv.op(yystack_[2].value.as < std::pair<std::string,std::string> > (),yystack_[0].value.as < std::pair<std::string,std::string> > (),"add");
     }
-#line 968 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 966 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 33:
-#line 257 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 255 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::string> > () = drv.op(yystack_[2].value.as < std::pair<std::string,std::string> > (),yystack_[0].value.as < std::pair<std::string,std::string> > (),"sub");
     }
-#line 976 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 974 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 34:
-#line 261 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 259 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::string> > () = drv.op(yystack_[2].value.as < std::pair<std::string,std::string> > (),yystack_[0].value.as < std::pair<std::string,std::string> > (),"mul");
     }
-#line 984 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 982 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 35:
-#line 265 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 263 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::string> > () = drv.op(yystack_[2].value.as < std::pair<std::string,std::string> > (),yystack_[0].value.as < std::pair<std::string,std::string> > (),"div");
     }
-#line 992 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 990 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 36:
-#line 269 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 267 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::string> > () = std::move(yystack_[1].value.as < std::pair<std::string,std::string> > ());
     }
-#line 1000 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 998 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 37:
-#line 273 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 271 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::string> > () = std::move(yystack_[0].value.as < std::pair<std::string,std::string> > ());
     }
-#line 1008 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1006 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 38:
-#line 277 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 275 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::string> > () = make_pair(std::to_string(yystack_[0].value.as < int > ()),drv.INT);
     }
-#line 1016 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1014 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 39:
-#line 281 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 279 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::string> > () = make_pair("'"+yystack_[0].value.as < char > ()+'\'',drv.CHAR);
     }
-#line 1024 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1022 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 40:
-#line 285 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 283 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::string> > () = make_pair(std::to_string(yystack_[0].value.as < double > ()),drv.REAL);
     }
-#line 1032 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1030 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 41:
-#line 289 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 287 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::string> > () = make_pair(std::to_string((yystack_[0].value.as < bool > ()?1:0)),drv.BOOL);
     }
-#line 1040 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1038 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
 
-#line 1044 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1042 "/home/deal_with/CLionProjects/cse474/bison.cpp"
 
             default:
               break;
@@ -1438,9 +1436,9 @@ namespace yy {
   {
        0,    82,    82,    89,    90,    94,    95,    98,   117,   118,
      119,   120,   124,   128,   136,   140,   146,   152,   158,   164,
-     173,   181,   188,   192,   193,   197,   203,   211,   226,   230,
-     238,   242,   252,   256,   260,   264,   268,   272,   276,   280,
-     284,   288
+     173,   181,   188,   192,   193,   197,   203,   209,   224,   228,
+     236,   240,   250,   254,   258,   262,   266,   270,   274,   278,
+     282,   286
   };
 
   // Print the state stack on the debug stream.
@@ -1474,9 +1472,9 @@ namespace yy {
 
 
 } // yy
-#line 1478 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1476 "/home/deal_with/CLionProjects/cse474/bison.cpp"
 
-#line 293 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 291 "/home/deal_with/CLionProjects/cse474/bison.yy"
 
 
 void yy::parser::error (const location_type& l, const std::string& m)

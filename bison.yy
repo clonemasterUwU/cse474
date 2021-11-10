@@ -106,7 +106,7 @@ declare_line:
                 }
             }
             for(auto p:$2){
-                drv.output << "declare " << p.first << "," << ($1==drv.REAL?"real":"integer") << '\n';
+                drv.output << "declare " << p.first << "," << $1 << '\n';
             }
             drv.output << drv.buffer.rdbuf();
             drv.buffer.clear();
