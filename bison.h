@@ -50,9 +50,13 @@
 #include <string>
 #include <vector>
 
-class driver;
 
-#line 56 "/home/deal_with/CLionProjects/cse474/bison.h"
+class driver;
+#include "parser_def.h"
+#include "bison.h"
+
+
+#line 60 "/home/deal_with/CLionProjects/cse474/bison.h"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -186,7 +190,7 @@ class driver;
 #endif
 
 namespace yy {
-#line 190 "/home/deal_with/CLionProjects/cse474/bison.h"
+#line 194 "/home/deal_with/CLionProjects/cse474/bison.h"
 
 
 
@@ -405,17 +409,19 @@ namespace yy {
       // declare_statement
       // identifier_exist
       // expression
-      char dummy5[sizeof (std::pair<std::string,std::string>)];
+      char dummy5[sizeof (std::pair<std::string,type>)];
 
       // "identifier"
-      // type_identifier
       // identifier_not_exist
       char dummy6[sizeof (std::string)];
 
       // declare_statement_list
       // identifier_exist_list
       // expression_list
-      char dummy7[sizeof (std::vector<std::pair<std::string,std::string>>)];
+      char dummy7[sizeof (std::vector<std::pair<std::string,type>>)];
+
+      // type_identifier
+      char dummy8[sizeof (type)];
     };
 
     /// The size of the largest semantic type.
@@ -597,13 +603,13 @@ namespace yy {
       {}
 #endif
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::pair<std::string,std::string>&& v, location_type&& l)
+      basic_symbol (typename Base::kind_type t, std::pair<std::string,type>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
         , location (std::move (l))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const std::pair<std::string,std::string>& v, const location_type& l)
+      basic_symbol (typename Base::kind_type t, const std::pair<std::string,type>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -623,13 +629,26 @@ namespace yy {
       {}
 #endif
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::vector<std::pair<std::string,std::string>>&& v, location_type&& l)
+      basic_symbol (typename Base::kind_type t, std::vector<std::pair<std::string,type>>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
         , location (std::move (l))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const std::vector<std::pair<std::string,std::string>>& v, const location_type& l)
+      basic_symbol (typename Base::kind_type t, const std::vector<std::pair<std::string,type>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, type&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const type& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -677,11 +696,10 @@ switch (yytype)
       case 37: // declare_statement
       case 39: // identifier_exist
       case 45: // expression
-        value.template destroy< std::pair<std::string,std::string> > ();
+        value.template destroy< std::pair<std::string,type> > ();
         break;
 
       case 25: // "identifier"
-      case 35: // type_identifier
       case 38: // identifier_not_exist
         value.template destroy< std::string > ();
         break;
@@ -689,7 +707,11 @@ switch (yytype)
       case 36: // declare_statement_list
       case 43: // identifier_exist_list
       case 44: // expression_list
-        value.template destroy< std::vector<std::pair<std::string,std::string>> > ();
+        value.template destroy< std::vector<std::pair<std::string,type>> > ();
+        break;
+
+      case 35: // type_identifier
+        value.template destroy< type > ();
         break;
 
       default:
@@ -1695,11 +1717,10 @@ switch (yytype)
       case 37: // declare_statement
       case 39: // identifier_exist
       case 45: // expression
-        value.move< std::pair<std::string,std::string> > (std::move (that.value));
+        value.move< std::pair<std::string,type> > (std::move (that.value));
         break;
 
       case 25: // "identifier"
-      case 35: // type_identifier
       case 38: // identifier_not_exist
         value.move< std::string > (std::move (that.value));
         break;
@@ -1707,7 +1728,11 @@ switch (yytype)
       case 36: // declare_statement_list
       case 43: // identifier_exist_list
       case 44: // expression_list
-        value.move< std::vector<std::pair<std::string,std::string>> > (std::move (that.value));
+        value.move< std::vector<std::pair<std::string,type>> > (std::move (that.value));
+        break;
+
+      case 35: // type_identifier
+        value.move< type > (std::move (that.value));
         break;
 
       default:
@@ -1744,11 +1769,10 @@ switch (yytype)
       case 37: // declare_statement
       case 39: // identifier_exist
       case 45: // expression
-        value.copy< std::pair<std::string,std::string> > (YY_MOVE (that.value));
+        value.copy< std::pair<std::string,type> > (YY_MOVE (that.value));
         break;
 
       case 25: // "identifier"
-      case 35: // type_identifier
       case 38: // identifier_not_exist
         value.copy< std::string > (YY_MOVE (that.value));
         break;
@@ -1756,7 +1780,11 @@ switch (yytype)
       case 36: // declare_statement_list
       case 43: // identifier_exist_list
       case 44: // expression_list
-        value.copy< std::vector<std::pair<std::string,std::string>> > (YY_MOVE (that.value));
+        value.copy< std::vector<std::pair<std::string,type>> > (YY_MOVE (that.value));
+        break;
+
+      case 35: // type_identifier
+        value.copy< type > (YY_MOVE (that.value));
         break;
 
       default:
@@ -1800,11 +1828,10 @@ switch (yytype)
       case 37: // declare_statement
       case 39: // identifier_exist
       case 45: // expression
-        value.move< std::pair<std::string,std::string> > (YY_MOVE (s.value));
+        value.move< std::pair<std::string,type> > (YY_MOVE (s.value));
         break;
 
       case 25: // "identifier"
-      case 35: // type_identifier
       case 38: // identifier_not_exist
         value.move< std::string > (YY_MOVE (s.value));
         break;
@@ -1812,7 +1839,11 @@ switch (yytype)
       case 36: // declare_statement_list
       case 43: // identifier_exist_list
       case 44: // expression_list
-        value.move< std::vector<std::pair<std::string,std::string>> > (YY_MOVE (s.value));
+        value.move< std::vector<std::pair<std::string,type>> > (YY_MOVE (s.value));
+        break;
+
+      case 35: // type_identifier
+        value.move< type > (YY_MOVE (s.value));
         break;
 
       default:
@@ -1870,7 +1901,7 @@ switch (yytype)
   }
 
 } // yy
-#line 1874 "/home/deal_with/CLionProjects/cse474/bison.h"
+#line 1905 "/home/deal_with/CLionProjects/cse474/bison.h"
 
 
 

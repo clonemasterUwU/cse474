@@ -13,7 +13,7 @@ flex_target(flex flex.ll ${CMAKE_CURRENT_SOURCE_DIR}/flex.cpp)
 add_flex_bison_dependency(flex bison)
 
 set(SOURCES ${BISON_bison_OUTPUT_SOURCE} ${FLEX_flex_OUTPUTS})
-add_library(parser STATIC ${SOURCES})
+add_library(parser STATIC ${SOURCES} )
 
 add_executable(CSE474 main.cpp driver.cpp)
 target_link_libraries(CSE474 parser)

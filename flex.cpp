@@ -618,9 +618,9 @@ char *yytext;
 # include <climits>
 # include <cstdlib>
 # include <string>
-# include "driver.h"
-# include "bison.h"
 
+# include "bison.h"
+#include "driver.h"
 // Work around an incompatibility in flex (at least versions
 // 2.5.31 through 2.5.33): it generates code that does
 // not conform to C89.  See Debian bug 333231

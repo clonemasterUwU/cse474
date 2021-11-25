@@ -11,7 +11,11 @@
 #include <string>
 #include <vector>
 
+
 class driver;
+#include "parser_def.h"
+#include "bison.h"
+
 }
 
 // The parsing context.
@@ -23,8 +27,8 @@ class driver;
 %define parse.error verbose
 
 %code {
-# include "driver.h"
 
+#include "driver.h"
 }
 
 %define api.token.prefix {H_}
@@ -64,14 +68,14 @@ class driver;
 %token <bool> SV_BOOL
 
 
-%type <std::pair<std::string,std::string>> declare_statement;
-%type <std::pair<std::string,std::string>> expression;
-%type <std::vector<std::pair<std::string,std::string>>> declare_statement_list;
-%type <std::vector<std::pair<std::string,std::string>>> identifier_exist_list;
-%type <std::vector<std::pair<std::string,std::string>>> expression_list;
+%type <std::pair<std::string,type>> declare_statement;
+%type <std::pair<std::string,type>> expression;
+%type <std::vector<std::pair<std::string,type>>> declare_statement_list;
+%type <std::vector<std::pair<std::string,type>>> identifier_exist_list;
+%type <std::vector<std::pair<std::string,type>>> expression_list;
 %type <std::string> identifier_not_exist;
-%type <std::string> type_identifier;
-%type <std::pair<std::string,std::string>> identifier_exist;
+%type <type> type_identifier;
+%type <std::pair<std::string,type>> identifier_exist;
 
 
 
@@ -98,10 +102,10 @@ declare_line:
         type_identifier declare_statement_list ";"
         {
             for(auto p:$2){
-                if( p.second == "any"){
+                if( p.second == ::ANY){
                     p.second = $1;
                     drv.symbol_table[p.first]=$1;
-                } else if(p.second != $1 && $1 != drv.REAL ){
+                } else if(p.second != $1 && $1 != ::REAL ){
                     throw yy::parser::syntax_error (drv.location,"conversion from " + p.second + " to " + $1 + " is not allowed");
                 }
             }
@@ -114,10 +118,10 @@ declare_line:
     ;
 
 type_identifier:
-        INTEGER {$$=drv.INT;}
-    |   REAL {$$=drv.REAL;}
-    |   CHAR {$$=drv.CHAR;}
-    |   BOOLEAN {$$=drv.BOOL;}
+        INTEGER {$$=::INT;}
+    |   REAL {$$=::REAL;}
+    |   CHAR {$$=::CHAR;}
+    |   BOOLEAN {$$=::BOOL;}
     ;
 
 declare_statement_list:

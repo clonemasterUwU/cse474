@@ -4,28 +4,44 @@
 
 #ifndef CSE474_DRIVER_H
 #define CSE474_DRIVER_H
-# include "bison.h"
 
-
-# include <string>
-# include <unordered_map>
-#include <fstream>
-#include <sstream>
-typedef std::pair<std::string,std::string > symbol_type;
-// Tell Flex the lexer's prototype ...
 # define YY_DECL \
   yy::parser::symbol_type yylex (driver& drv)
 // ... and declare it for the parser's sake.
 YY_DECL;
 
+# include <string>
+# include <unordered_map>
+#include <fstream>
+#include <sstream>
+#include <cassert>
+
+
+
 class driver {
 
 public:
+    typedef std::pair<std::string,type > symbol_type;
+    std::string typestr(type t){
+        switch (t) {
+            case INT:
+                return "integer";
+            case REAL:
+                return "real";
+            case BOOL:
+                return "boolean";
+            case CHAR:
+                return "char";
+            case ANY:
+                return "any";
+            default:
+                assert(false);
+        }
+    }
     driver();
     u_int64_t counter;
     std::string prefix;
-    std::unordered_map<std::string, std::string> symbol_table;
-    std::unordered_map<std::string, int> variables;
+    std::unordered_map<std::string,type> symbol_table;
 
     std::ofstream output;
     std::stringstream buffer;
@@ -59,9 +75,9 @@ public:
             throw yy::parser::syntax_error (location,"variable "+symbol_name+" is already declared");
         }
     }
-    void check_valid_operator(const std::pair<std::string,std::string>& a){
+    void check_valid_operator(const symbol_type & a){
         if(a.second!=INT && a.second != REAL){
-            throw yy::parser::syntax_error (location,"type " + a.second + " is not valid for operator");
+//            throw yy::parser::syntax_error (location,"type " + a.second + " is not valid for operator");
         }
     }
 
@@ -101,10 +117,7 @@ public:
         symbol_table.insert(res);
         return res;
     }
-    std::string INT{"integer"};
-    std::string REAL{"real"};
-    std::string CHAR{"char"};
-    std::string BOOL{"boolean"};
+
 };
 
 
