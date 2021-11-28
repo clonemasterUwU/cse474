@@ -1,8 +1,11 @@
 #include "bison.h"
 #include "driver.h"
 
-driver::driver() : trace_parsing(false), trace_scanning(false),counter(0) {
-
+driver::driver() : trace_parsing(false), trace_scanning(false),
+temp_counter(0),test_counter(0) {
+    temp_prefix = "&temp";
+    test_start_prefix = ":&test_start";
+    test_end_prefix = ":&test_end";
 }
 
 int driver::parse(const std::string &f) {
@@ -14,8 +17,8 @@ int driver::parse(const std::string &f) {
     } else {
         output = std::ofstream (f.substr(0,t)+".asm");
     }
-    prefix = "&temp";
-    counter = 0;
+
+    temp_counter = 0;
     scan_begin();
     yy::parser parser(*this);
     parser.set_debug_level(trace_parsing);

@@ -15,5 +15,5 @@ add_flex_bison_dependency(flex bison)
 set(SOURCES ${BISON_bison_OUTPUT_SOURCE} ${FLEX_flex_OUTPUTS})
 add_library(parser STATIC ${SOURCES} )
 
-add_executable(CSE474 main.cpp driver.cpp)
+add_executable(CSE474 main.cpp driver.cpp ast.cpp)
 target_link_libraries(CSE474 parser)

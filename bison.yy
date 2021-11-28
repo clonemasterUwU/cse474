@@ -7,14 +7,14 @@
 %define parse.assert
 
 %code requires {
-#include <unordered_map>
 #include <string>
 #include <vector>
 
 
 class driver;
-#include "parser_def.h"
+#include "ast.h"
 #include "bison.h"
+using namespace h_ast;
 
 }
 
@@ -41,6 +41,7 @@ class driver;
     PLUS    "+"
     STAR    "*"
     SLASH   "/"
+    MOD     "%"
     LPAREN  "("
     RPAREN  ")"
     COMMA   ","
@@ -68,230 +69,221 @@ class driver;
 %token <bool> SV_BOOL
 
 
-%type <std::pair<std::string,type>> declare_statement;
-%type <std::pair<std::string,type>> expression;
-%type <std::vector<std::pair<std::string,type>>> declare_statement_list;
-%type <std::vector<std::pair<std::string,type>>> identifier_exist_list;
-%type <std::vector<std::pair<std::string,type>>> expression_list;
-%type <std::string> identifier_not_exist;
-%type <type> type_identifier;
-%type <std::pair<std::string,type>> identifier_exist;
 
-
-
-
+%type <std::unique_ptr<StatementList>> declare_block declare_line_list main_block statement_list
+%type <std::unique_ptr<MultiDeclarationStatement>> declare_line
+%type <std::pair<std::string,std::unique_ptr<Exp>>> declare_statement
+%type <primitive> type_identifier
+%type <std::unique_ptr<Exp>> expression
+%type <arithmetic_b_op> alu
+%type <std::vector<std::unique_ptr<IdentifierExist>>> identifier_list
+%type <std::unique_ptr<AssignmentStatement>> assignment
+%type <std::unique_ptr<StatementLike>> statement
+%type <std::unique_ptr<ReadStatement>> read_statement
+%type <std::unique_ptr<WriteStatement>> write_statement
+%type <std::vector<std::unique_ptr<Exp>>> expression_list
 %%
 %start program;
 program:
         "program" declare_block main_block 
     {
+        $2->recursive_compile(drv);
+        $3->recursive_compile(drv);
         drv.output << "halt\n";
     }
     ;
 
 declare_block:
         %empty
-    |   VAR declare_line_list {}
+    {
+        $$ = std::unique_ptr<StatementList>();
+    }
+    |   VAR declare_line_list 
+    {
+        $$ = std::move($2);
+    }
     ;
 
 declare_line_list:
-        declare_line
-    |   declare_line_list declare_line
+        declare_line ";"
+    {
+        $$ = std::make_unique<StatementList>();
+        $$->add(std::move($1));
+    }
+    |   declare_line_list declare_line ";"
+    {
+        $1->add(std::move($2));
+        $$=std::move($1);
+    }
     ;
 declare_line:
-        type_identifier declare_statement_list ";"
-        {
-            for(auto p:$2){
-                if( p.second == ::ANY){
-                    p.second = $1;
-                    drv.symbol_table[p.first]=$1;
-                } else if(p.second != $1 && $1 != ::REAL ){
-                    throw yy::parser::syntax_error (drv.location,"conversion from " + p.second + " to " + $1 + " is not allowed");
-                }
-            }
-            for(auto p:$2){
-                drv.output << "declare " << p.first << "," << $1 << '\n';
-            }
-            drv.output << drv.buffer.rdbuf();
-            drv.buffer.clear();
-        }
-    ;
-
-type_identifier:
-        INTEGER {$$=::INT;}
-    |   REAL {$$=::REAL;}
-    |   CHAR {$$=::CHAR;}
-    |   BOOLEAN {$$=::BOOL;}
-    ;
-
-declare_statement_list:
-        declare_statement 
+        type_identifier declare_statement 
     {
-        $$=std::vector<std::pair<std::string,std::string>>{std::move($1)};
+        $$ = std::make_unique<MultiDeclarationStatement>($1);
+        $$->add(drv,std::move($2.first),std::move($2.second));
     }
-    |   declare_statement_list COMMA declare_statement 
+    |   declare_line "," declare_statement
     {
-        $1.push_back(std::move($3));
-        $$ = std::move($1);
-    }
-    ;
-
-declare_statement:
-        identifier_not_exist
-    {
-        $$=make_pair($1,"any");
-    }
-    |   identifier_not_exist ":=" SV_INT
-    {
-        drv.buffer << "store " << $3 << ", " << $1 << '\n';
-        drv.symbol_table[$1]=drv.INT;
-        $$=std::make_pair($1,drv.INT);
-    }
-    |   identifier_not_exist ":=" SV_REAL
-    {
-        drv.buffer << "store " << $3 << ", " << $1 << '\n';
-        drv.symbol_table[$1]=drv.REAL;
-        $$=std::make_pair($1,drv.REAL);
-    }
-    |   identifier_not_exist ":=" SV_CHAR
-    {
-        drv.buffer << "store '" << $3 << "', " << $1 << '\n';
-        drv.symbol_table[$1]=drv.CHAR;
-        $$=std::make_pair($1,drv.CHAR);
-    }
-    |   identifier_not_exist ":=" SV_BOOL
-    {
-        drv.buffer << "store " << $3 << ", " << $1 << '\n';
-        drv.symbol_table[$1]=drv.BOOL;
-        $$=std::make_pair($1,drv.BOOL);
-    }
-    |   identifier_not_exist ":=" identifier_exist
-    {
-        drv.buffer << "store " << $3.first << ", " << $1 << '\n';
-        drv.symbol_table[$1]=$3.second;
-        $$=std::make_pair($1,$3.second);
-    }
-    ;
-
-identifier_not_exist:
-    IDENTIFIER
-    {
-        drv.symbol_not_exist($1);
+        $1->add(drv,std::move($3.first),std::move($3.second));
         $$=std::move($1);
     }
     ;
 
-identifier_exist:
-    IDENTIFIER
+type_identifier:
+        INTEGER {$$=INT;}
+    |   REAL {$$=REAL;}
+    |   CHAR {$$=CHAR;}
+    |   BOOLEAN {$$=BOOL;}
+    ;
+
+declare_statement:
+        IDENTIFIER
     {
-        $$=drv.find_symbol($1);
+        $$={std::move($1),nullptr};
+    }
+    |   IDENTIFIER ":=" expression
+    {
+        $$={std::move($1),std::move($3)};
+    }
+    ;
+
+main_block:
+        BEGIN statement_list END "." 
+    {
+        $$=std::move($2);
     }
     ;
     
-main_block:
-        BEGIN statement_list END "." {}
-    ;
-
 statement_list:
-        statement 
-    |   statement_list statement 
+        %empty
+    {
+        $$=std::make_unique<StatementList>();
+    }
+    |   statement_list statement
+    {
+        $1->add(std::move($2));
+        $$=std::move($1);
+    }
     ;
-
 statement:
-        READ "(" identifier_exist_list ")" ";" 
+        read_statement
     {
-        for(auto& p:$3){
-            drv.output << "read " << p.first << ", " << p.second << '\n';
-        }
+        $$=std::move($1);
     }
-    |   WRITE "(" expression_list ")" ";"
+    |   write_statement
     {
-        for(auto& p:$3){
-            drv.output << "write " << p.first << ", " << p.second << '\n';
-        }
+        $$=std::move($1);
     }
-    |   identifier_exist ":=" expression ";"
+    |   declare_line ";"
     {
-        if($3.second != $1.second){
-            if($1.second!=drv.INT && $1.second!=drv.REAL){
-                throw yy::parser::syntax_error(drv.location,"cannot assign "+$3.second+" to a "+$1.second+" variables");
-            }
-            auto temp = drv.get_temp_name();
-            drv.output << ($1.second == drv.INT ? "rtoi ":"itor ") << $3.first << ", " << temp << '\n';
-            $3.first = std::move(temp);
-        }
-        drv.output << "store " << $3.first << ", " << $1.first << '\n';
+        $$=std::move($1);
+    }
+    |   assignment ";"
+    {
+        $$=std::move($1);
     }
     ;
 
-identifier_exist_list:
-        identifier_exist
+read_statement:
+        READ "(" identifier_list ")" ";"
     {
-        $$=std::vector<std::pair<std::string,std::string>>{std::move($1)};
+        $$ = std::make_unique<ReadStatement>(std::move($3));
     }
-    |   identifier_exist_list "," identifier_exist
+    ;
+
+write_statement:
+        WRITE "(" expression_list ")" ";"
     {
-        $1.push_back(std::move($3));
+        $$ = std::make_unique<WriteStatement>(std::move($3));
+    }
+    ;
+    
+assignment:
+    IDENTIFIER ":=" expression 
+    {
+        $$=std::make_unique<AssignmentStatement>(drv,std::make_unique<IdentifierExist>(drv,std::move($1)),std::move($3));
+    }
+    ;
+
+identifier_list:
+        %empty
+    {
+        $$=std::vector<std::unique_ptr<IdentifierExist>>();
+    }
+    |   identifier_list IDENTIFIER
+    {
+        $1.push_back(std::make_unique<IdentifierExist>(drv,std::move($2)));
         $$=std::move($1);
     }
     ;
 
 expression_list:
-        expression
+        %empty
     {
-        $$=std::vector<std::pair<std::string,std::string>>{std::move($1)};
+        $$=std::vector<std::unique_ptr<Exp>>();
     }
-    |   expression_list "," expression
+    |   expression_list expression
     {
-        $1.push_back(std::move($3));
-        $$ = std::move($1);
+        $1.push_back(std::move($2));
+        $$=std::move($1);
     }
     ;
 
 %left "+" "-";
-%left "*" "/";
+%left "*" "/" "%";
 expression:
-        expression "+" expression
+        expression alu expression
     {
-        $$ = drv.op($1,$3,"add");
+        $$ = std::make_unique<ArithmeticExp>(drv,std::move($1),std::move($3),$2);
     }
-    |   expression "-" expression
-    {
-        $$ = drv.op($1,$3,"sub");
-    }
-    |   expression "*" expression
-    {
-        $$ = drv.op($1,$3,"mul");
-    }
-    |   expression "/" expression
-    {
-        $$ = drv.op($1,$3,"div");
-    }
+    
     |   "(" expression ")"
     {
         $$ = std::move($2);
     }
-    |   identifier_exist
+    |   IDENTIFIER
     {
-        $$ = std::move($1);
+        $$= std::make_unique<IdentifierExist>(drv,std::move($1));
     }
     |   SV_INT
     {
-        $$ = make_pair(std::to_string($1),drv.INT);
+        $$=std::make_unique<IntegerLiteral>(drv,$1);
     }
-    |   SV_CHAR 
+    |   SV_REAL
     {
-        $$ = make_pair("'"+$1+'\'',drv.CHAR);
+        $$=std::make_unique<RealLiteral>(drv,$1);
     }
-    |   SV_REAL 
+    |   SV_BOOL
     {
-        $$ = make_pair(std::to_string($1),drv.REAL);
+        $$=std::make_unique<BoolLiteral>(drv,$1);
     }
-    |   SV_BOOL 
+    |   SV_CHAR
     {
-        $$ = make_pair(std::to_string(($1?1:0)),drv.BOOL);
+        $$=std::make_unique<CharLiteral>(drv,$1);
     }
     ;
+
+alu:
+        "+"
+    {
+        $$=h_ast::ADD;
+    }
+    |   "-"
+    {
+        $$=h_ast::SUB;
+    }
+    |   "/"
+    {
+        $$=h_ast::DIV;
+    }
+    |   "*"
+    {
+        $$=h_ast::MUL;
+    }
+    | "%"
+    {
+        $$=h_ast::MOD;
+    }
 %%
 
 void yy::parser::error (const location_type& l, const std::string& m)

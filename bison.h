@@ -46,14 +46,14 @@
 // "%code requires" blocks.
 #line 9 "/home/deal_with/CLionProjects/cse474/bison.yy"
 
-#include <unordered_map>
 #include <string>
 #include <vector>
 
 
 class driver;
-#include "parser_def.h"
+#include "ast.h"
 #include "bison.h"
+using namespace h_ast;
 
 
 #line 60 "/home/deal_with/CLionProjects/cse474/bison.h"
@@ -394,34 +394,59 @@ namespace yy {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // alu
+      char dummy1[sizeof (arithmetic_b_op)];
+
       // SV_BOOL
-      char dummy1[sizeof (bool)];
+      char dummy2[sizeof (bool)];
 
       // SV_CHAR
-      char dummy2[sizeof (char)];
+      char dummy3[sizeof (char)];
 
       // SV_REAL
-      char dummy3[sizeof (double)];
+      char dummy4[sizeof (double)];
 
       // SV_INT
-      char dummy4[sizeof (int)];
-
-      // declare_statement
-      // identifier_exist
-      // expression
-      char dummy5[sizeof (std::pair<std::string,type>)];
-
-      // "identifier"
-      // identifier_not_exist
-      char dummy6[sizeof (std::string)];
-
-      // declare_statement_list
-      // identifier_exist_list
-      // expression_list
-      char dummy7[sizeof (std::vector<std::pair<std::string,type>>)];
+      char dummy5[sizeof (int)];
 
       // type_identifier
-      char dummy8[sizeof (type)];
+      char dummy6[sizeof (primitive)];
+
+      // declare_statement
+      char dummy7[sizeof (std::pair<std::string,std::unique_ptr<Exp>>)];
+
+      // "identifier"
+      char dummy8[sizeof (std::string)];
+
+      // assignment
+      char dummy9[sizeof (std::unique_ptr<AssignmentStatement>)];
+
+      // expression
+      char dummy10[sizeof (std::unique_ptr<Exp>)];
+
+      // declare_line
+      char dummy11[sizeof (std::unique_ptr<MultiDeclarationStatement>)];
+
+      // read_statement
+      char dummy12[sizeof (std::unique_ptr<ReadStatement>)];
+
+      // statement
+      char dummy13[sizeof (std::unique_ptr<StatementLike>)];
+
+      // declare_block
+      // declare_line_list
+      // main_block
+      // statement_list
+      char dummy14[sizeof (std::unique_ptr<StatementList>)];
+
+      // write_statement
+      char dummy15[sizeof (std::unique_ptr<WriteStatement>)];
+
+      // expression_list
+      char dummy16[sizeof (std::vector<std::unique_ptr<Exp>>)];
+
+      // identifier_list
+      char dummy17[sizeof (std::vector<std::unique_ptr<IdentifierExist>>)];
     };
 
     /// The size of the largest semantic type.
@@ -475,28 +500,29 @@ namespace yy {
         H_PLUS = 260,
         H_STAR = 261,
         H_SLASH = 262,
-        H_LPAREN = 263,
-        H_RPAREN = 264,
-        H_COMMA = 265,
-        H_SEMI = 266,
-        H_DOT = 267,
-        H_PROGRAM = 268,
-        H_BEGIN = 269,
-        H_END = 270,
-        H_READ = 271,
-        H_WRITE = 272,
-        H_INTEGER = 273,
-        H_REAL = 274,
-        H_CHAR = 275,
-        H_BOOLEAN = 276,
-        H_TRUE = 277,
-        H_FALSE = 278,
-        H_VAR = 279,
-        H_IDENTIFIER = 280,
-        H_SV_INT = 281,
-        H_SV_CHAR = 282,
-        H_SV_REAL = 283,
-        H_SV_BOOL = 284
+        H_MOD = 263,
+        H_LPAREN = 264,
+        H_RPAREN = 265,
+        H_COMMA = 266,
+        H_SEMI = 267,
+        H_DOT = 268,
+        H_PROGRAM = 269,
+        H_BEGIN = 270,
+        H_END = 271,
+        H_READ = 272,
+        H_WRITE = 273,
+        H_INTEGER = 274,
+        H_REAL = 275,
+        H_CHAR = 276,
+        H_BOOLEAN = 277,
+        H_TRUE = 278,
+        H_FALSE = 279,
+        H_VAR = 280,
+        H_IDENTIFIER = 281,
+        H_SV_INT = 282,
+        H_SV_CHAR = 283,
+        H_SV_REAL = 284,
+        H_SV_BOOL = 285
       };
     };
 
@@ -547,6 +573,19 @@ namespace yy {
 #else
       basic_symbol (typename Base::kind_type t, const location_type& l)
         : Base (t)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, arithmetic_b_op&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const arithmetic_b_op& v, const location_type& l)
+        : Base (t)
+        , value (v)
         , location (l)
       {}
 #endif
@@ -603,13 +642,26 @@ namespace yy {
       {}
 #endif
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::pair<std::string,type>&& v, location_type&& l)
+      basic_symbol (typename Base::kind_type t, primitive&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
         , location (std::move (l))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const std::pair<std::string,type>& v, const location_type& l)
+      basic_symbol (typename Base::kind_type t, const primitive& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::pair<std::string,std::unique_ptr<Exp>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::pair<std::string,std::unique_ptr<Exp>>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -629,26 +681,117 @@ namespace yy {
       {}
 #endif
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::vector<std::pair<std::string,type>>&& v, location_type&& l)
+      basic_symbol (typename Base::kind_type t, std::unique_ptr<AssignmentStatement>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
         , location (std::move (l))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const std::vector<std::pair<std::string,type>>& v, const location_type& l)
+      basic_symbol (typename Base::kind_type t, const std::unique_ptr<AssignmentStatement>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
       {}
 #endif
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, type&& v, location_type&& l)
+      basic_symbol (typename Base::kind_type t, std::unique_ptr<Exp>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
         , location (std::move (l))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const type& v, const location_type& l)
+      basic_symbol (typename Base::kind_type t, const std::unique_ptr<Exp>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::unique_ptr<MultiDeclarationStatement>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::unique_ptr<MultiDeclarationStatement>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::unique_ptr<ReadStatement>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::unique_ptr<ReadStatement>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::unique_ptr<StatementLike>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::unique_ptr<StatementLike>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::unique_ptr<StatementList>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::unique_ptr<StatementList>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::unique_ptr<WriteStatement>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::unique_ptr<WriteStatement>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::vector<std::unique_ptr<Exp>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::vector<std::unique_ptr<Exp>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::vector<std::unique_ptr<IdentifierExist>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::vector<std::unique_ptr<IdentifierExist>>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -677,41 +820,75 @@ namespace yy {
         // Type destructor.
 switch (yytype)
     {
-      case 29: // SV_BOOL
+      case 47: // alu
+        value.template destroy< arithmetic_b_op > ();
+        break;
+
+      case 30: // SV_BOOL
         value.template destroy< bool > ();
         break;
 
-      case 27: // SV_CHAR
+      case 28: // SV_CHAR
         value.template destroy< char > ();
         break;
 
-      case 28: // SV_REAL
+      case 29: // SV_REAL
         value.template destroy< double > ();
         break;
 
-      case 26: // SV_INT
+      case 27: // SV_INT
         value.template destroy< int > ();
         break;
 
-      case 37: // declare_statement
-      case 39: // identifier_exist
-      case 45: // expression
-        value.template destroy< std::pair<std::string,type> > ();
+      case 36: // type_identifier
+        value.template destroy< primitive > ();
         break;
 
-      case 25: // "identifier"
-      case 38: // identifier_not_exist
+      case 37: // declare_statement
+        value.template destroy< std::pair<std::string,std::unique_ptr<Exp>> > ();
+        break;
+
+      case 26: // "identifier"
         value.template destroy< std::string > ();
         break;
 
-      case 36: // declare_statement_list
-      case 43: // identifier_exist_list
-      case 44: // expression_list
-        value.template destroy< std::vector<std::pair<std::string,type>> > ();
+      case 43: // assignment
+        value.template destroy< std::unique_ptr<AssignmentStatement> > ();
         break;
 
-      case 35: // type_identifier
-        value.template destroy< type > ();
+      case 46: // expression
+        value.template destroy< std::unique_ptr<Exp> > ();
+        break;
+
+      case 35: // declare_line
+        value.template destroy< std::unique_ptr<MultiDeclarationStatement> > ();
+        break;
+
+      case 41: // read_statement
+        value.template destroy< std::unique_ptr<ReadStatement> > ();
+        break;
+
+      case 40: // statement
+        value.template destroy< std::unique_ptr<StatementLike> > ();
+        break;
+
+      case 33: // declare_block
+      case 34: // declare_line_list
+      case 38: // main_block
+      case 39: // statement_list
+        value.template destroy< std::unique_ptr<StatementList> > ();
+        break;
+
+      case 42: // write_statement
+        value.template destroy< std::unique_ptr<WriteStatement> > ();
+        break;
+
+      case 45: // expression_list
+        value.template destroy< std::vector<std::unique_ptr<Exp>> > ();
+        break;
+
+      case 44: // identifier_list
+        value.template destroy< std::vector<std::unique_ptr<IdentifierExist>> > ();
         break;
 
       default:
@@ -790,13 +967,13 @@ switch (yytype)
       symbol_type (int tok, location_type l)
         : super_type(token_type (tok), std::move (l))
       {
-        YY_ASSERT (tok == token::H_EOF || tok == token::H_ASSIGN || tok == token::H_MINUS || tok == token::H_PLUS || tok == token::H_STAR || tok == token::H_SLASH || tok == token::H_LPAREN || tok == token::H_RPAREN || tok == token::H_COMMA || tok == token::H_SEMI || tok == token::H_DOT || tok == token::H_PROGRAM || tok == token::H_BEGIN || tok == token::H_END || tok == token::H_READ || tok == token::H_WRITE || tok == token::H_INTEGER || tok == token::H_REAL || tok == token::H_CHAR || tok == token::H_BOOLEAN || tok == token::H_TRUE || tok == token::H_FALSE || tok == token::H_VAR);
+        YY_ASSERT (tok == token::H_EOF || tok == token::H_ASSIGN || tok == token::H_MINUS || tok == token::H_PLUS || tok == token::H_STAR || tok == token::H_SLASH || tok == token::H_MOD || tok == token::H_LPAREN || tok == token::H_RPAREN || tok == token::H_COMMA || tok == token::H_SEMI || tok == token::H_DOT || tok == token::H_PROGRAM || tok == token::H_BEGIN || tok == token::H_END || tok == token::H_READ || tok == token::H_WRITE || tok == token::H_INTEGER || tok == token::H_REAL || tok == token::H_CHAR || tok == token::H_BOOLEAN || tok == token::H_TRUE || tok == token::H_FALSE || tok == token::H_VAR);
       }
 #else
       symbol_type (int tok, const location_type& l)
         : super_type(token_type (tok), l)
       {
-        YY_ASSERT (tok == token::H_EOF || tok == token::H_ASSIGN || tok == token::H_MINUS || tok == token::H_PLUS || tok == token::H_STAR || tok == token::H_SLASH || tok == token::H_LPAREN || tok == token::H_RPAREN || tok == token::H_COMMA || tok == token::H_SEMI || tok == token::H_DOT || tok == token::H_PROGRAM || tok == token::H_BEGIN || tok == token::H_END || tok == token::H_READ || tok == token::H_WRITE || tok == token::H_INTEGER || tok == token::H_REAL || tok == token::H_CHAR || tok == token::H_BOOLEAN || tok == token::H_TRUE || tok == token::H_FALSE || tok == token::H_VAR);
+        YY_ASSERT (tok == token::H_EOF || tok == token::H_ASSIGN || tok == token::H_MINUS || tok == token::H_PLUS || tok == token::H_STAR || tok == token::H_SLASH || tok == token::H_MOD || tok == token::H_LPAREN || tok == token::H_RPAREN || tok == token::H_COMMA || tok == token::H_SEMI || tok == token::H_DOT || tok == token::H_PROGRAM || tok == token::H_BEGIN || tok == token::H_END || tok == token::H_READ || tok == token::H_WRITE || tok == token::H_INTEGER || tok == token::H_REAL || tok == token::H_CHAR || tok == token::H_BOOLEAN || tok == token::H_TRUE || tok == token::H_FALSE || tok == token::H_VAR);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -989,6 +1166,21 @@ switch (yytype)
       make_SLASH (const location_type& l)
       {
         return symbol_type (token::H_SLASH, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_MOD (location_type l)
+      {
+        return symbol_type (token::H_MOD, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_MOD (const location_type& l)
+      {
+        return symbol_type (token::H_MOD, l);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1627,10 +1819,10 @@ switch (yytype)
     enum
     {
       yyeof_ = 0,
-      yylast_ = 72,     ///< Last index in yytable_.
-      yynnts_ = 16,  ///< Number of nonterminal symbols.
+      yylast_ = 64,     ///< Last index in yytable_.
+      yynnts_ = 17,  ///< Number of nonterminal symbols.
       yyfinal_ = 5, ///< Termination state number.
-      yyntokens_ = 30  ///< Number of tokens.
+      yyntokens_ = 31  ///< Number of tokens.
     };
 
 
@@ -1676,9 +1868,9 @@ switch (yytype)
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29
+      25,    26,    27,    28,    29,    30
     };
-    const int user_token_number_max_ = 284;
+    const int user_token_number_max_ = 285;
 
     if (t <= 0)
       return yyeof_;
@@ -1698,41 +1890,75 @@ switch (yytype)
   {
     switch (this->type_get ())
     {
-      case 29: // SV_BOOL
+      case 47: // alu
+        value.move< arithmetic_b_op > (std::move (that.value));
+        break;
+
+      case 30: // SV_BOOL
         value.move< bool > (std::move (that.value));
         break;
 
-      case 27: // SV_CHAR
+      case 28: // SV_CHAR
         value.move< char > (std::move (that.value));
         break;
 
-      case 28: // SV_REAL
+      case 29: // SV_REAL
         value.move< double > (std::move (that.value));
         break;
 
-      case 26: // SV_INT
+      case 27: // SV_INT
         value.move< int > (std::move (that.value));
         break;
 
-      case 37: // declare_statement
-      case 39: // identifier_exist
-      case 45: // expression
-        value.move< std::pair<std::string,type> > (std::move (that.value));
+      case 36: // type_identifier
+        value.move< primitive > (std::move (that.value));
         break;
 
-      case 25: // "identifier"
-      case 38: // identifier_not_exist
+      case 37: // declare_statement
+        value.move< std::pair<std::string,std::unique_ptr<Exp>> > (std::move (that.value));
+        break;
+
+      case 26: // "identifier"
         value.move< std::string > (std::move (that.value));
         break;
 
-      case 36: // declare_statement_list
-      case 43: // identifier_exist_list
-      case 44: // expression_list
-        value.move< std::vector<std::pair<std::string,type>> > (std::move (that.value));
+      case 43: // assignment
+        value.move< std::unique_ptr<AssignmentStatement> > (std::move (that.value));
         break;
 
-      case 35: // type_identifier
-        value.move< type > (std::move (that.value));
+      case 46: // expression
+        value.move< std::unique_ptr<Exp> > (std::move (that.value));
+        break;
+
+      case 35: // declare_line
+        value.move< std::unique_ptr<MultiDeclarationStatement> > (std::move (that.value));
+        break;
+
+      case 41: // read_statement
+        value.move< std::unique_ptr<ReadStatement> > (std::move (that.value));
+        break;
+
+      case 40: // statement
+        value.move< std::unique_ptr<StatementLike> > (std::move (that.value));
+        break;
+
+      case 33: // declare_block
+      case 34: // declare_line_list
+      case 38: // main_block
+      case 39: // statement_list
+        value.move< std::unique_ptr<StatementList> > (std::move (that.value));
+        break;
+
+      case 42: // write_statement
+        value.move< std::unique_ptr<WriteStatement> > (std::move (that.value));
+        break;
+
+      case 45: // expression_list
+        value.move< std::vector<std::unique_ptr<Exp>> > (std::move (that.value));
+        break;
+
+      case 44: // identifier_list
+        value.move< std::vector<std::unique_ptr<IdentifierExist>> > (std::move (that.value));
         break;
 
       default:
@@ -1750,41 +1976,75 @@ switch (yytype)
   {
     switch (this->type_get ())
     {
-      case 29: // SV_BOOL
+      case 47: // alu
+        value.copy< arithmetic_b_op > (YY_MOVE (that.value));
+        break;
+
+      case 30: // SV_BOOL
         value.copy< bool > (YY_MOVE (that.value));
         break;
 
-      case 27: // SV_CHAR
+      case 28: // SV_CHAR
         value.copy< char > (YY_MOVE (that.value));
         break;
 
-      case 28: // SV_REAL
+      case 29: // SV_REAL
         value.copy< double > (YY_MOVE (that.value));
         break;
 
-      case 26: // SV_INT
+      case 27: // SV_INT
         value.copy< int > (YY_MOVE (that.value));
         break;
 
-      case 37: // declare_statement
-      case 39: // identifier_exist
-      case 45: // expression
-        value.copy< std::pair<std::string,type> > (YY_MOVE (that.value));
+      case 36: // type_identifier
+        value.copy< primitive > (YY_MOVE (that.value));
         break;
 
-      case 25: // "identifier"
-      case 38: // identifier_not_exist
+      case 37: // declare_statement
+        value.copy< std::pair<std::string,std::unique_ptr<Exp>> > (YY_MOVE (that.value));
+        break;
+
+      case 26: // "identifier"
         value.copy< std::string > (YY_MOVE (that.value));
         break;
 
-      case 36: // declare_statement_list
-      case 43: // identifier_exist_list
-      case 44: // expression_list
-        value.copy< std::vector<std::pair<std::string,type>> > (YY_MOVE (that.value));
+      case 43: // assignment
+        value.copy< std::unique_ptr<AssignmentStatement> > (YY_MOVE (that.value));
         break;
 
-      case 35: // type_identifier
-        value.copy< type > (YY_MOVE (that.value));
+      case 46: // expression
+        value.copy< std::unique_ptr<Exp> > (YY_MOVE (that.value));
+        break;
+
+      case 35: // declare_line
+        value.copy< std::unique_ptr<MultiDeclarationStatement> > (YY_MOVE (that.value));
+        break;
+
+      case 41: // read_statement
+        value.copy< std::unique_ptr<ReadStatement> > (YY_MOVE (that.value));
+        break;
+
+      case 40: // statement
+        value.copy< std::unique_ptr<StatementLike> > (YY_MOVE (that.value));
+        break;
+
+      case 33: // declare_block
+      case 34: // declare_line_list
+      case 38: // main_block
+      case 39: // statement_list
+        value.copy< std::unique_ptr<StatementList> > (YY_MOVE (that.value));
+        break;
+
+      case 42: // write_statement
+        value.copy< std::unique_ptr<WriteStatement> > (YY_MOVE (that.value));
+        break;
+
+      case 45: // expression_list
+        value.copy< std::vector<std::unique_ptr<Exp>> > (YY_MOVE (that.value));
+        break;
+
+      case 44: // identifier_list
+        value.copy< std::vector<std::unique_ptr<IdentifierExist>> > (YY_MOVE (that.value));
         break;
 
       default:
@@ -1809,41 +2069,75 @@ switch (yytype)
     super_type::move (s);
     switch (this->type_get ())
     {
-      case 29: // SV_BOOL
+      case 47: // alu
+        value.move< arithmetic_b_op > (YY_MOVE (s.value));
+        break;
+
+      case 30: // SV_BOOL
         value.move< bool > (YY_MOVE (s.value));
         break;
 
-      case 27: // SV_CHAR
+      case 28: // SV_CHAR
         value.move< char > (YY_MOVE (s.value));
         break;
 
-      case 28: // SV_REAL
+      case 29: // SV_REAL
         value.move< double > (YY_MOVE (s.value));
         break;
 
-      case 26: // SV_INT
+      case 27: // SV_INT
         value.move< int > (YY_MOVE (s.value));
         break;
 
-      case 37: // declare_statement
-      case 39: // identifier_exist
-      case 45: // expression
-        value.move< std::pair<std::string,type> > (YY_MOVE (s.value));
+      case 36: // type_identifier
+        value.move< primitive > (YY_MOVE (s.value));
         break;
 
-      case 25: // "identifier"
-      case 38: // identifier_not_exist
+      case 37: // declare_statement
+        value.move< std::pair<std::string,std::unique_ptr<Exp>> > (YY_MOVE (s.value));
+        break;
+
+      case 26: // "identifier"
         value.move< std::string > (YY_MOVE (s.value));
         break;
 
-      case 36: // declare_statement_list
-      case 43: // identifier_exist_list
-      case 44: // expression_list
-        value.move< std::vector<std::pair<std::string,type>> > (YY_MOVE (s.value));
+      case 43: // assignment
+        value.move< std::unique_ptr<AssignmentStatement> > (YY_MOVE (s.value));
         break;
 
-      case 35: // type_identifier
-        value.move< type > (YY_MOVE (s.value));
+      case 46: // expression
+        value.move< std::unique_ptr<Exp> > (YY_MOVE (s.value));
+        break;
+
+      case 35: // declare_line
+        value.move< std::unique_ptr<MultiDeclarationStatement> > (YY_MOVE (s.value));
+        break;
+
+      case 41: // read_statement
+        value.move< std::unique_ptr<ReadStatement> > (YY_MOVE (s.value));
+        break;
+
+      case 40: // statement
+        value.move< std::unique_ptr<StatementLike> > (YY_MOVE (s.value));
+        break;
+
+      case 33: // declare_block
+      case 34: // declare_line_list
+      case 38: // main_block
+      case 39: // statement_list
+        value.move< std::unique_ptr<StatementList> > (YY_MOVE (s.value));
+        break;
+
+      case 42: // write_statement
+        value.move< std::unique_ptr<WriteStatement> > (YY_MOVE (s.value));
+        break;
+
+      case 45: // expression_list
+        value.move< std::vector<std::unique_ptr<Exp>> > (YY_MOVE (s.value));
+        break;
+
+      case 44: // identifier_list
+        value.move< std::vector<std::unique_ptr<IdentifierExist>> > (YY_MOVE (s.value));
         break;
 
       default:
@@ -1901,7 +2195,7 @@ switch (yytype)
   }
 
 } // yy
-#line 1905 "/home/deal_with/CLionProjects/cse474/bison.h"
+#line 2199 "/home/deal_with/CLionProjects/cse474/bison.h"
 
 
 
