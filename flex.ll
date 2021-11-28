@@ -21,15 +21,13 @@ alpha [a-zA-Z]
 digit [0-9]
 white_space [ \t]+
 new_line "\r"|"\n"|"\r\n"
-sign "+"|"-"
 identifier {alpha}(_|{alpha}|{digit})*
-int_literal {sign}?{digit}+
-real_literal {sign}?{digit}+\.({digit}+)?
+int_literal {digit}+
+real_literal {digit}+\.({digit}+)?
 bool_literal "TRUE"|"FALSE"
 char_literal '.'
 
 %{
-
     // Code run each time a pattern is matched.
     #define YY_USER_ACTION \
         loc.step(); \
@@ -72,6 +70,17 @@ char_literal '.'
 ";"         return yy::parser::make_SEMI (loc);
 ","         return yy::parser::make_COMMA (loc);
 "."         return yy::parser::make_DOT (loc);
+">="        return yy::parser::make_GE(loc);
+"<>"        return yy::parser::make_NE(loc);
+"<="        return yy::parser::make_LE(loc);
+"="        return yy::parser::make_EQ(loc);
+">"        return yy::parser::make_GT(loc);
+"<"        return yy::parser::make_LT(loc);
+
+
+
+
+
   /* keywords */
 "PROGRAM"   return yy::parser::make_PROGRAM (loc);
 "BEGIN"     return yy::parser::make_BEGIN (loc);
@@ -83,7 +92,14 @@ char_literal '.'
 "REAL"      return yy::parser::make_REAL (loc);
 "CHAR"      return yy::parser::make_CHAR (loc);
 "BOOLEAN"   return yy::parser::make_BOOLEAN (loc);
-
+"IF"        return yy::parser::make_IF (loc);
+"THEN"      return yy::parser::make_THEN (loc);
+"ELSE"      return yy::parser::make_ELSE (loc);
+"WHILE"     return yy::parser::make_WHILE (loc);
+"DO"        return yy::parser::make_DO (loc);
+"AND"        return yy::parser::make_AND(loc);
+"OR"        return yy::parser::make_OR(loc);
+"NOT"        return yy::parser::make_NOT(loc);
 {int_literal}      {
     errno = 0;
     long n = strtol (yytext, nullptr, 10);

@@ -247,74 +247,103 @@ namespace yy {
   {
     switch (that.type_get ())
     {
-      case 47: // alu
+      case 70: // a_b_op
         value.YY_MOVE_OR_COPY< arithmetic_b_op > (YY_MOVE (that.value));
         break;
 
-      case 30: // SV_BOOL
+      case 44: // SV_BOOL
         value.YY_MOVE_OR_COPY< bool > (YY_MOVE (that.value));
         break;
 
-      case 28: // SV_CHAR
+      case 71: // b_a_op
+        value.YY_MOVE_OR_COPY< bool_a_op > (YY_MOVE (that.value));
+        break;
+
+      case 72: // b_b_op
+        value.YY_MOVE_OR_COPY< bool_b_op > (YY_MOVE (that.value));
+        break;
+
+      case 73: // b_u_op
+        value.YY_MOVE_OR_COPY< bool_u_op > (YY_MOVE (that.value));
+        break;
+
+      case 42: // SV_CHAR
         value.YY_MOVE_OR_COPY< char > (YY_MOVE (that.value));
         break;
 
-      case 29: // SV_REAL
+      case 43: // SV_REAL
+      case 69: // sv_sign_real
         value.YY_MOVE_OR_COPY< double > (YY_MOVE (that.value));
         break;
 
-      case 27: // SV_INT
+      case 41: // SV_INT
+      case 68: // sv_sign_int
         value.YY_MOVE_OR_COPY< int > (YY_MOVE (that.value));
         break;
 
-      case 36: // type_identifier
+      case 51: // type_identifier
         value.YY_MOVE_OR_COPY< primitive > (YY_MOVE (that.value));
         break;
 
-      case 37: // declare_statement
+      case 52: // declare_statement
         value.YY_MOVE_OR_COPY< std::pair<std::string,std::unique_ptr<Exp>> > (YY_MOVE (that.value));
         break;
 
-      case 26: // "identifier"
+      case 40: // "identifier"
         value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (that.value));
         break;
 
-      case 43: // assignment
+      case 59: // assignment
         value.YY_MOVE_OR_COPY< std::unique_ptr<AssignmentStatement> > (YY_MOVE (that.value));
         break;
 
-      case 46: // expression
+      case 66: // boolean_expression
+        value.YY_MOVE_OR_COPY< std::unique_ptr<BooleanExp> > (YY_MOVE (that.value));
+        break;
+
+      case 67: // expression
         value.YY_MOVE_OR_COPY< std::unique_ptr<Exp> > (YY_MOVE (that.value));
         break;
 
-      case 35: // declare_line
+      case 60: // if_then_else
+      case 61: // if_else_if
+        value.YY_MOVE_OR_COPY< std::unique_ptr<IfThenElse> > (YY_MOVE (that.value));
+        break;
+
+      case 50: // declare_line
         value.YY_MOVE_OR_COPY< std::unique_ptr<MultiDeclarationStatement> > (YY_MOVE (that.value));
         break;
 
-      case 41: // read_statement
+      case 57: // read_statement
         value.YY_MOVE_OR_COPY< std::unique_ptr<ReadStatement> > (YY_MOVE (that.value));
         break;
 
-      case 40: // statement
+      case 56: // statement
+      case 62: // else_block
         value.YY_MOVE_OR_COPY< std::unique_ptr<StatementLike> > (YY_MOVE (that.value));
         break;
 
-      case 33: // declare_block
-      case 34: // declare_line_list
-      case 38: // main_block
-      case 39: // statement_list
+      case 48: // declare_block
+      case 49: // declare_line_list
+      case 53: // main_block
+      case 54: // basic_block
+      case 55: // statement_list
         value.YY_MOVE_OR_COPY< std::unique_ptr<StatementList> > (YY_MOVE (that.value));
         break;
 
-      case 42: // write_statement
+      case 63: // while_do
+        value.YY_MOVE_OR_COPY< std::unique_ptr<WhileDo> > (YY_MOVE (that.value));
+        break;
+
+      case 58: // write_statement
         value.YY_MOVE_OR_COPY< std::unique_ptr<WriteStatement> > (YY_MOVE (that.value));
         break;
 
-      case 45: // expression_list
+      case 65: // expression_list
         value.YY_MOVE_OR_COPY< std::vector<std::unique_ptr<Exp>> > (YY_MOVE (that.value));
         break;
 
-      case 44: // identifier_list
+      case 64: // identifier_list
         value.YY_MOVE_OR_COPY< std::vector<std::unique_ptr<IdentifierExist>> > (YY_MOVE (that.value));
         break;
 
@@ -333,74 +362,103 @@ namespace yy {
   {
     switch (that.type_get ())
     {
-      case 47: // alu
+      case 70: // a_b_op
         value.move< arithmetic_b_op > (YY_MOVE (that.value));
         break;
 
-      case 30: // SV_BOOL
+      case 44: // SV_BOOL
         value.move< bool > (YY_MOVE (that.value));
         break;
 
-      case 28: // SV_CHAR
+      case 71: // b_a_op
+        value.move< bool_a_op > (YY_MOVE (that.value));
+        break;
+
+      case 72: // b_b_op
+        value.move< bool_b_op > (YY_MOVE (that.value));
+        break;
+
+      case 73: // b_u_op
+        value.move< bool_u_op > (YY_MOVE (that.value));
+        break;
+
+      case 42: // SV_CHAR
         value.move< char > (YY_MOVE (that.value));
         break;
 
-      case 29: // SV_REAL
+      case 43: // SV_REAL
+      case 69: // sv_sign_real
         value.move< double > (YY_MOVE (that.value));
         break;
 
-      case 27: // SV_INT
+      case 41: // SV_INT
+      case 68: // sv_sign_int
         value.move< int > (YY_MOVE (that.value));
         break;
 
-      case 36: // type_identifier
+      case 51: // type_identifier
         value.move< primitive > (YY_MOVE (that.value));
         break;
 
-      case 37: // declare_statement
+      case 52: // declare_statement
         value.move< std::pair<std::string,std::unique_ptr<Exp>> > (YY_MOVE (that.value));
         break;
 
-      case 26: // "identifier"
+      case 40: // "identifier"
         value.move< std::string > (YY_MOVE (that.value));
         break;
 
-      case 43: // assignment
+      case 59: // assignment
         value.move< std::unique_ptr<AssignmentStatement> > (YY_MOVE (that.value));
         break;
 
-      case 46: // expression
+      case 66: // boolean_expression
+        value.move< std::unique_ptr<BooleanExp> > (YY_MOVE (that.value));
+        break;
+
+      case 67: // expression
         value.move< std::unique_ptr<Exp> > (YY_MOVE (that.value));
         break;
 
-      case 35: // declare_line
+      case 60: // if_then_else
+      case 61: // if_else_if
+        value.move< std::unique_ptr<IfThenElse> > (YY_MOVE (that.value));
+        break;
+
+      case 50: // declare_line
         value.move< std::unique_ptr<MultiDeclarationStatement> > (YY_MOVE (that.value));
         break;
 
-      case 41: // read_statement
+      case 57: // read_statement
         value.move< std::unique_ptr<ReadStatement> > (YY_MOVE (that.value));
         break;
 
-      case 40: // statement
+      case 56: // statement
+      case 62: // else_block
         value.move< std::unique_ptr<StatementLike> > (YY_MOVE (that.value));
         break;
 
-      case 33: // declare_block
-      case 34: // declare_line_list
-      case 38: // main_block
-      case 39: // statement_list
+      case 48: // declare_block
+      case 49: // declare_line_list
+      case 53: // main_block
+      case 54: // basic_block
+      case 55: // statement_list
         value.move< std::unique_ptr<StatementList> > (YY_MOVE (that.value));
         break;
 
-      case 42: // write_statement
+      case 63: // while_do
+        value.move< std::unique_ptr<WhileDo> > (YY_MOVE (that.value));
+        break;
+
+      case 58: // write_statement
         value.move< std::unique_ptr<WriteStatement> > (YY_MOVE (that.value));
         break;
 
-      case 45: // expression_list
+      case 65: // expression_list
         value.move< std::vector<std::unique_ptr<Exp>> > (YY_MOVE (that.value));
         break;
 
-      case 44: // identifier_list
+      case 64: // identifier_list
         value.move< std::vector<std::unique_ptr<IdentifierExist>> > (YY_MOVE (that.value));
         break;
 
@@ -419,74 +477,103 @@ namespace yy {
     state = that.state;
     switch (that.type_get ())
     {
-      case 47: // alu
+      case 70: // a_b_op
         value.copy< arithmetic_b_op > (that.value);
         break;
 
-      case 30: // SV_BOOL
+      case 44: // SV_BOOL
         value.copy< bool > (that.value);
         break;
 
-      case 28: // SV_CHAR
+      case 71: // b_a_op
+        value.copy< bool_a_op > (that.value);
+        break;
+
+      case 72: // b_b_op
+        value.copy< bool_b_op > (that.value);
+        break;
+
+      case 73: // b_u_op
+        value.copy< bool_u_op > (that.value);
+        break;
+
+      case 42: // SV_CHAR
         value.copy< char > (that.value);
         break;
 
-      case 29: // SV_REAL
+      case 43: // SV_REAL
+      case 69: // sv_sign_real
         value.copy< double > (that.value);
         break;
 
-      case 27: // SV_INT
+      case 41: // SV_INT
+      case 68: // sv_sign_int
         value.copy< int > (that.value);
         break;
 
-      case 36: // type_identifier
+      case 51: // type_identifier
         value.copy< primitive > (that.value);
         break;
 
-      case 37: // declare_statement
+      case 52: // declare_statement
         value.copy< std::pair<std::string,std::unique_ptr<Exp>> > (that.value);
         break;
 
-      case 26: // "identifier"
+      case 40: // "identifier"
         value.copy< std::string > (that.value);
         break;
 
-      case 43: // assignment
+      case 59: // assignment
         value.copy< std::unique_ptr<AssignmentStatement> > (that.value);
         break;
 
-      case 46: // expression
+      case 66: // boolean_expression
+        value.copy< std::unique_ptr<BooleanExp> > (that.value);
+        break;
+
+      case 67: // expression
         value.copy< std::unique_ptr<Exp> > (that.value);
         break;
 
-      case 35: // declare_line
+      case 60: // if_then_else
+      case 61: // if_else_if
+        value.copy< std::unique_ptr<IfThenElse> > (that.value);
+        break;
+
+      case 50: // declare_line
         value.copy< std::unique_ptr<MultiDeclarationStatement> > (that.value);
         break;
 
-      case 41: // read_statement
+      case 57: // read_statement
         value.copy< std::unique_ptr<ReadStatement> > (that.value);
         break;
 
-      case 40: // statement
+      case 56: // statement
+      case 62: // else_block
         value.copy< std::unique_ptr<StatementLike> > (that.value);
         break;
 
-      case 33: // declare_block
-      case 34: // declare_line_list
-      case 38: // main_block
-      case 39: // statement_list
+      case 48: // declare_block
+      case 49: // declare_line_list
+      case 53: // main_block
+      case 54: // basic_block
+      case 55: // statement_list
         value.copy< std::unique_ptr<StatementList> > (that.value);
         break;
 
-      case 42: // write_statement
+      case 63: // while_do
+        value.copy< std::unique_ptr<WhileDo> > (that.value);
+        break;
+
+      case 58: // write_statement
         value.copy< std::unique_ptr<WriteStatement> > (that.value);
         break;
 
-      case 45: // expression_list
+      case 65: // expression_list
         value.copy< std::vector<std::unique_ptr<Exp>> > (that.value);
         break;
 
-      case 44: // identifier_list
+      case 64: // identifier_list
         value.copy< std::vector<std::unique_ptr<IdentifierExist>> > (that.value);
         break;
 
@@ -504,74 +591,103 @@ namespace yy {
     state = that.state;
     switch (that.type_get ())
     {
-      case 47: // alu
+      case 70: // a_b_op
         value.move< arithmetic_b_op > (that.value);
         break;
 
-      case 30: // SV_BOOL
+      case 44: // SV_BOOL
         value.move< bool > (that.value);
         break;
 
-      case 28: // SV_CHAR
+      case 71: // b_a_op
+        value.move< bool_a_op > (that.value);
+        break;
+
+      case 72: // b_b_op
+        value.move< bool_b_op > (that.value);
+        break;
+
+      case 73: // b_u_op
+        value.move< bool_u_op > (that.value);
+        break;
+
+      case 42: // SV_CHAR
         value.move< char > (that.value);
         break;
 
-      case 29: // SV_REAL
+      case 43: // SV_REAL
+      case 69: // sv_sign_real
         value.move< double > (that.value);
         break;
 
-      case 27: // SV_INT
+      case 41: // SV_INT
+      case 68: // sv_sign_int
         value.move< int > (that.value);
         break;
 
-      case 36: // type_identifier
+      case 51: // type_identifier
         value.move< primitive > (that.value);
         break;
 
-      case 37: // declare_statement
+      case 52: // declare_statement
         value.move< std::pair<std::string,std::unique_ptr<Exp>> > (that.value);
         break;
 
-      case 26: // "identifier"
+      case 40: // "identifier"
         value.move< std::string > (that.value);
         break;
 
-      case 43: // assignment
+      case 59: // assignment
         value.move< std::unique_ptr<AssignmentStatement> > (that.value);
         break;
 
-      case 46: // expression
+      case 66: // boolean_expression
+        value.move< std::unique_ptr<BooleanExp> > (that.value);
+        break;
+
+      case 67: // expression
         value.move< std::unique_ptr<Exp> > (that.value);
         break;
 
-      case 35: // declare_line
+      case 60: // if_then_else
+      case 61: // if_else_if
+        value.move< std::unique_ptr<IfThenElse> > (that.value);
+        break;
+
+      case 50: // declare_line
         value.move< std::unique_ptr<MultiDeclarationStatement> > (that.value);
         break;
 
-      case 41: // read_statement
+      case 57: // read_statement
         value.move< std::unique_ptr<ReadStatement> > (that.value);
         break;
 
-      case 40: // statement
+      case 56: // statement
+      case 62: // else_block
         value.move< std::unique_ptr<StatementLike> > (that.value);
         break;
 
-      case 33: // declare_block
-      case 34: // declare_line_list
-      case 38: // main_block
-      case 39: // statement_list
+      case 48: // declare_block
+      case 49: // declare_line_list
+      case 53: // main_block
+      case 54: // basic_block
+      case 55: // statement_list
         value.move< std::unique_ptr<StatementList> > (that.value);
         break;
 
-      case 42: // write_statement
+      case 63: // while_do
+        value.move< std::unique_ptr<WhileDo> > (that.value);
+        break;
+
+      case 58: // write_statement
         value.move< std::unique_ptr<WriteStatement> > (that.value);
         break;
 
-      case 45: // expression_list
+      case 65: // expression_list
         value.move< std::vector<std::unique_ptr<Exp>> > (that.value);
         break;
 
-      case 44: // identifier_list
+      case 64: // identifier_list
         value.move< std::vector<std::unique_ptr<IdentifierExist>> > (that.value);
         break;
 
@@ -825,74 +941,103 @@ namespace yy {
          when using variants.  */
       switch (yyr1_[yyn])
     {
-      case 47: // alu
+      case 70: // a_b_op
         yylhs.value.emplace< arithmetic_b_op > ();
         break;
 
-      case 30: // SV_BOOL
+      case 44: // SV_BOOL
         yylhs.value.emplace< bool > ();
         break;
 
-      case 28: // SV_CHAR
+      case 71: // b_a_op
+        yylhs.value.emplace< bool_a_op > ();
+        break;
+
+      case 72: // b_b_op
+        yylhs.value.emplace< bool_b_op > ();
+        break;
+
+      case 73: // b_u_op
+        yylhs.value.emplace< bool_u_op > ();
+        break;
+
+      case 42: // SV_CHAR
         yylhs.value.emplace< char > ();
         break;
 
-      case 29: // SV_REAL
+      case 43: // SV_REAL
+      case 69: // sv_sign_real
         yylhs.value.emplace< double > ();
         break;
 
-      case 27: // SV_INT
+      case 41: // SV_INT
+      case 68: // sv_sign_int
         yylhs.value.emplace< int > ();
         break;
 
-      case 36: // type_identifier
+      case 51: // type_identifier
         yylhs.value.emplace< primitive > ();
         break;
 
-      case 37: // declare_statement
+      case 52: // declare_statement
         yylhs.value.emplace< std::pair<std::string,std::unique_ptr<Exp>> > ();
         break;
 
-      case 26: // "identifier"
+      case 40: // "identifier"
         yylhs.value.emplace< std::string > ();
         break;
 
-      case 43: // assignment
+      case 59: // assignment
         yylhs.value.emplace< std::unique_ptr<AssignmentStatement> > ();
         break;
 
-      case 46: // expression
+      case 66: // boolean_expression
+        yylhs.value.emplace< std::unique_ptr<BooleanExp> > ();
+        break;
+
+      case 67: // expression
         yylhs.value.emplace< std::unique_ptr<Exp> > ();
         break;
 
-      case 35: // declare_line
+      case 60: // if_then_else
+      case 61: // if_else_if
+        yylhs.value.emplace< std::unique_ptr<IfThenElse> > ();
+        break;
+
+      case 50: // declare_line
         yylhs.value.emplace< std::unique_ptr<MultiDeclarationStatement> > ();
         break;
 
-      case 41: // read_statement
+      case 57: // read_statement
         yylhs.value.emplace< std::unique_ptr<ReadStatement> > ();
         break;
 
-      case 40: // statement
+      case 56: // statement
+      case 62: // else_block
         yylhs.value.emplace< std::unique_ptr<StatementLike> > ();
         break;
 
-      case 33: // declare_block
-      case 34: // declare_line_list
-      case 38: // main_block
-      case 39: // statement_list
+      case 48: // declare_block
+      case 49: // declare_line_list
+      case 53: // main_block
+      case 54: // basic_block
+      case 55: // statement_list
         yylhs.value.emplace< std::unique_ptr<StatementList> > ();
         break;
 
-      case 42: // write_statement
+      case 63: // while_do
+        yylhs.value.emplace< std::unique_ptr<WhileDo> > ();
+        break;
+
+      case 58: // write_statement
         yylhs.value.emplace< std::unique_ptr<WriteStatement> > ();
         break;
 
-      case 45: // expression_list
+      case 65: // expression_list
         yylhs.value.emplace< std::vector<std::unique_ptr<Exp>> > ();
         break;
 
-      case 44: // identifier_list
+      case 64: // identifier_list
         yylhs.value.emplace< std::vector<std::unique_ptr<IdentifierExist>> > ();
         break;
 
@@ -917,320 +1062,531 @@ namespace yy {
           switch (yyn)
             {
   case 2:
-#line 89 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 111 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yystack_[1].value.as < std::unique_ptr<StatementList> > ()->recursive_compile(drv);
         yystack_[0].value.as < std::unique_ptr<StatementList> > ()->recursive_compile(drv);
         drv.output << "halt\n";
     }
-#line 927 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1072 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 3:
-#line 98 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 120 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::unique_ptr<StatementList> > () = std::unique_ptr<StatementList>();
     }
-#line 935 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1080 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 4:
-#line 102 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 124 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::unique_ptr<StatementList> > () = std::move(yystack_[0].value.as < std::unique_ptr<StatementList> > ());
     }
-#line 943 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1088 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 5:
-#line 109 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 131 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::unique_ptr<StatementList> > () = std::make_unique<StatementList>();
         yylhs.value.as < std::unique_ptr<StatementList> > ()->add(std::move(yystack_[1].value.as < std::unique_ptr<MultiDeclarationStatement> > ()));
     }
-#line 952 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1097 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 6:
-#line 114 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 136 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yystack_[2].value.as < std::unique_ptr<StatementList> > ()->add(std::move(yystack_[1].value.as < std::unique_ptr<MultiDeclarationStatement> > ()));
         yylhs.value.as < std::unique_ptr<StatementList> > ()=std::move(yystack_[2].value.as < std::unique_ptr<StatementList> > ());
     }
-#line 961 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1106 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 7:
-#line 121 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 143 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::unique_ptr<MultiDeclarationStatement> > () = std::make_unique<MultiDeclarationStatement>(yystack_[1].value.as < primitive > ());
         yylhs.value.as < std::unique_ptr<MultiDeclarationStatement> > ()->add(drv,std::move(yystack_[0].value.as < std::pair<std::string,std::unique_ptr<Exp>> > ().first),std::move(yystack_[0].value.as < std::pair<std::string,std::unique_ptr<Exp>> > ().second));
     }
-#line 970 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1115 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 8:
-#line 126 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 148 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yystack_[2].value.as < std::unique_ptr<MultiDeclarationStatement> > ()->add(drv,std::move(yystack_[0].value.as < std::pair<std::string,std::unique_ptr<Exp>> > ().first),std::move(yystack_[0].value.as < std::pair<std::string,std::unique_ptr<Exp>> > ().second));
         yylhs.value.as < std::unique_ptr<MultiDeclarationStatement> > ()=std::move(yystack_[2].value.as < std::unique_ptr<MultiDeclarationStatement> > ());
     }
-#line 979 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1124 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 9:
-#line 133 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 155 "/home/deal_with/CLionProjects/cse474/bison.yy"
                 {yylhs.value.as < primitive > ()=INT;}
-#line 985 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1130 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 10:
-#line 134 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 156 "/home/deal_with/CLionProjects/cse474/bison.yy"
              {yylhs.value.as < primitive > ()=REAL;}
-#line 991 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1136 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 11:
-#line 135 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 157 "/home/deal_with/CLionProjects/cse474/bison.yy"
              {yylhs.value.as < primitive > ()=CHAR;}
-#line 997 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1142 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 12:
-#line 136 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 158 "/home/deal_with/CLionProjects/cse474/bison.yy"
                 {yylhs.value.as < primitive > ()=BOOL;}
-#line 1003 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1148 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 13:
-#line 141 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 163 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::unique_ptr<Exp>> > ()={std::move(yystack_[0].value.as < std::string > ()),nullptr};
     }
-#line 1011 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1156 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 14:
-#line 145 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 167 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::pair<std::string,std::unique_ptr<Exp>> > ()={std::move(yystack_[2].value.as < std::string > ()),std::move(yystack_[0].value.as < std::unique_ptr<Exp> > ())};
     }
-#line 1019 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1164 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 15:
-#line 152 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 174 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
-        yylhs.value.as < std::unique_ptr<StatementList> > ()=std::move(yystack_[2].value.as < std::unique_ptr<StatementList> > ());
+        yylhs.value.as < std::unique_ptr<StatementList> > ()=std::move(yystack_[1].value.as < std::unique_ptr<StatementList> > ());
     }
-#line 1027 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1172 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 16:
-#line 159 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 181 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
-        yylhs.value.as < std::unique_ptr<StatementList> > ()=std::make_unique<StatementList>();
+        yylhs.value.as < std::unique_ptr<StatementList> > ()=std::move(yystack_[1].value.as < std::unique_ptr<StatementList> > ());
     }
-#line 1035 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1180 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 17:
-#line 163 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 188 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<StatementList> > ()=std::make_unique<StatementList>();
+    }
+#line 1188 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 18:
+#line 192 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yystack_[1].value.as < std::unique_ptr<StatementList> > ()->add(std::move(yystack_[0].value.as < std::unique_ptr<StatementLike> > ()));
         yylhs.value.as < std::unique_ptr<StatementList> > ()=std::move(yystack_[1].value.as < std::unique_ptr<StatementList> > ());
     }
-#line 1044 "/home/deal_with/CLionProjects/cse474/bison.cpp"
-    break;
-
-  case 18:
-#line 170 "/home/deal_with/CLionProjects/cse474/bison.yy"
-    {
-        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::move(yystack_[0].value.as < std::unique_ptr<ReadStatement> > ());
-    }
-#line 1052 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1197 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 19:
-#line 174 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 200 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
-        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::move(yystack_[0].value.as < std::unique_ptr<WriteStatement> > ());
+        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::move(yystack_[0].value.as < std::unique_ptr<ReadStatement> > ());
     }
-#line 1060 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1205 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 20:
-#line 178 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 204 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
-        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::move(yystack_[1].value.as < std::unique_ptr<MultiDeclarationStatement> > ());
+        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::move(yystack_[0].value.as < std::unique_ptr<WriteStatement> > ());
     }
-#line 1068 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1213 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 21:
-#line 182 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 208 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
-        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::move(yystack_[1].value.as < std::unique_ptr<AssignmentStatement> > ());
+        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::move(yystack_[1].value.as < std::unique_ptr<MultiDeclarationStatement> > ());
     }
-#line 1076 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1221 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 22:
-#line 189 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 212 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
-        yylhs.value.as < std::unique_ptr<ReadStatement> > () = std::make_unique<ReadStatement>(std::move(yystack_[2].value.as < std::vector<std::unique_ptr<IdentifierExist>> > ()));
+        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::move(yystack_[1].value.as < std::unique_ptr<AssignmentStatement> > ());
     }
-#line 1084 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1229 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 23:
-#line 196 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 216 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
-        yylhs.value.as < std::unique_ptr<WriteStatement> > () = std::make_unique<WriteStatement>(std::move(yystack_[2].value.as < std::vector<std::unique_ptr<Exp>> > ()));
+        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::move(yystack_[0].value.as < std::unique_ptr<IfThenElse> > ());
     }
-#line 1092 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1237 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 24:
-#line 203 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 220 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
-        yylhs.value.as < std::unique_ptr<AssignmentStatement> > ()=std::make_unique<AssignmentStatement>(drv,std::make_unique<IdentifierExist>(drv,std::move(yystack_[2].value.as < std::string > ())),std::move(yystack_[0].value.as < std::unique_ptr<Exp> > ()));
+        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::move(yystack_[0].value.as < std::unique_ptr<WhileDo> > ());
     }
-#line 1100 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1245 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 25:
-#line 210 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 227 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
-        yylhs.value.as < std::vector<std::unique_ptr<IdentifierExist>> > ()=std::vector<std::unique_ptr<IdentifierExist>>();
+        yylhs.value.as < std::unique_ptr<ReadStatement> > () = std::make_unique<ReadStatement>(std::move(yystack_[2].value.as < std::vector<std::unique_ptr<IdentifierExist>> > ()));
     }
-#line 1108 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1253 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 26:
-#line 214 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 234 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<WriteStatement> > () = std::make_unique<WriteStatement>(std::move(yystack_[2].value.as < std::vector<std::unique_ptr<Exp>> > ()));
+    }
+#line 1261 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 27:
+#line 241 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<AssignmentStatement> > ()=std::make_unique<AssignmentStatement>(drv,std::make_unique<IdentifierExist>(drv,std::move(yystack_[2].value.as < std::string > ())),std::move(yystack_[0].value.as < std::unique_ptr<Exp> > ()));
+    }
+#line 1269 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 28:
+#line 248 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {   
+        yylhs.value.as < std::unique_ptr<IfThenElse> > ()=std::move(yystack_[1].value.as < std::unique_ptr<IfThenElse> > ());
+        yylhs.value.as < std::unique_ptr<IfThenElse> > ()->_else = std::move(yystack_[0].value.as < std::unique_ptr<StatementLike> > ());
+    }
+#line 1278 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 29:
+#line 256 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<IfThenElse> > () = std::make_unique<IfThenElse>();
+        yylhs.value.as < std::unique_ptr<IfThenElse> > ()->add(std::move(yystack_[2].value.as < std::unique_ptr<BooleanExp> > ()),std::move(yystack_[0].value.as < std::unique_ptr<StatementList> > ()));
+    }
+#line 1287 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 30:
+#line 261 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yystack_[5].value.as < std::unique_ptr<IfThenElse> > ()->add(std::move(yystack_[2].value.as < std::unique_ptr<BooleanExp> > ()),std::move(yystack_[0].value.as < std::unique_ptr<StatementList> > ()));
+        yylhs.value.as < std::unique_ptr<IfThenElse> > ()=std::move(yystack_[5].value.as < std::unique_ptr<IfThenElse> > ());
+    }
+#line 1296 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 31:
+#line 269 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::unique_ptr<StatementLike>(nullptr);
+    }
+#line 1304 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 32:
+#line 273 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<StatementLike> > ()=std::move(yystack_[0].value.as < std::unique_ptr<StatementList> > ());
+    }
+#line 1312 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 33:
+#line 280 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<WhileDo> > ()=std::make_unique<WhileDo>(std::move(yystack_[2].value.as < std::unique_ptr<BooleanExp> > ()),std::move(yystack_[0].value.as < std::unique_ptr<StatementList> > ()));
+    }
+#line 1320 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 34:
+#line 287 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::vector<std::unique_ptr<IdentifierExist>> > ()=std::vector<std::unique_ptr<IdentifierExist>>();
+    }
+#line 1328 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 35:
+#line 291 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yystack_[1].value.as < std::vector<std::unique_ptr<IdentifierExist>> > ().push_back(std::make_unique<IdentifierExist>(drv,std::move(yystack_[0].value.as < std::string > ())));
         yylhs.value.as < std::vector<std::unique_ptr<IdentifierExist>> > ()=std::move(yystack_[1].value.as < std::vector<std::unique_ptr<IdentifierExist>> > ());
     }
-#line 1117 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1337 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
-  case 27:
-#line 222 "/home/deal_with/CLionProjects/cse474/bison.yy"
+  case 36:
+#line 299 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < std::vector<std::unique_ptr<Exp>> > ()=std::vector<std::unique_ptr<Exp>>();
     }
-#line 1125 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1345 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
-  case 28:
-#line 226 "/home/deal_with/CLionProjects/cse474/bison.yy"
+  case 37:
+#line 303 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yystack_[1].value.as < std::vector<std::unique_ptr<Exp>> > ().push_back(std::move(yystack_[0].value.as < std::unique_ptr<Exp> > ()));
         yylhs.value.as < std::vector<std::unique_ptr<Exp>> > ()=std::move(yystack_[1].value.as < std::vector<std::unique_ptr<Exp>> > ());
     }
-#line 1134 "/home/deal_with/CLionProjects/cse474/bison.cpp"
-    break;
-
-  case 29:
-#line 236 "/home/deal_with/CLionProjects/cse474/bison.yy"
-    {
-        yylhs.value.as < std::unique_ptr<Exp> > () = std::make_unique<ArithmeticExp>(drv,std::move(yystack_[2].value.as < std::unique_ptr<Exp> > ()),std::move(yystack_[0].value.as < std::unique_ptr<Exp> > ()),yystack_[1].value.as < arithmetic_b_op > ());
-    }
-#line 1142 "/home/deal_with/CLionProjects/cse474/bison.cpp"
-    break;
-
-  case 30:
-#line 241 "/home/deal_with/CLionProjects/cse474/bison.yy"
-    {
-        yylhs.value.as < std::unique_ptr<Exp> > () = std::move(yystack_[1].value.as < std::unique_ptr<Exp> > ());
-    }
-#line 1150 "/home/deal_with/CLionProjects/cse474/bison.cpp"
-    break;
-
-  case 31:
-#line 245 "/home/deal_with/CLionProjects/cse474/bison.yy"
-    {
-        yylhs.value.as < std::unique_ptr<Exp> > ()= std::make_unique<IdentifierExist>(drv,std::move(yystack_[0].value.as < std::string > ()));
-    }
-#line 1158 "/home/deal_with/CLionProjects/cse474/bison.cpp"
-    break;
-
-  case 32:
-#line 249 "/home/deal_with/CLionProjects/cse474/bison.yy"
-    {
-        yylhs.value.as < std::unique_ptr<Exp> > ()=std::make_unique<IntegerLiteral>(drv,yystack_[0].value.as < int > ());
-    }
-#line 1166 "/home/deal_with/CLionProjects/cse474/bison.cpp"
-    break;
-
-  case 33:
-#line 253 "/home/deal_with/CLionProjects/cse474/bison.yy"
-    {
-        yylhs.value.as < std::unique_ptr<Exp> > ()=std::make_unique<RealLiteral>(drv,yystack_[0].value.as < double > ());
-    }
-#line 1174 "/home/deal_with/CLionProjects/cse474/bison.cpp"
-    break;
-
-  case 34:
-#line 257 "/home/deal_with/CLionProjects/cse474/bison.yy"
-    {
-        yylhs.value.as < std::unique_ptr<Exp> > ()=std::make_unique<BoolLiteral>(drv,yystack_[0].value.as < bool > ());
-    }
-#line 1182 "/home/deal_with/CLionProjects/cse474/bison.cpp"
-    break;
-
-  case 35:
-#line 261 "/home/deal_with/CLionProjects/cse474/bison.yy"
-    {
-        yylhs.value.as < std::unique_ptr<Exp> > ()=std::make_unique<CharLiteral>(drv,yystack_[0].value.as < char > ());
-    }
-#line 1190 "/home/deal_with/CLionProjects/cse474/bison.cpp"
-    break;
-
-  case 36:
-#line 268 "/home/deal_with/CLionProjects/cse474/bison.yy"
-    {
-        yylhs.value.as < arithmetic_b_op > ()=h_ast::ADD;
-    }
-#line 1198 "/home/deal_with/CLionProjects/cse474/bison.cpp"
-    break;
-
-  case 37:
-#line 272 "/home/deal_with/CLionProjects/cse474/bison.yy"
-    {
-        yylhs.value.as < arithmetic_b_op > ()=h_ast::SUB;
-    }
-#line 1206 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1354 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 38:
-#line 276 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 321 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
-        yylhs.value.as < arithmetic_b_op > ()=h_ast::DIV;
+        yylhs.value.as < std::unique_ptr<BooleanExp> > () = std::make_unique<LiteralBoolExp>(drv,std::make_unique<BoolLiteral>(drv,yystack_[0].value.as < bool > ()));
     }
-#line 1214 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1362 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 39:
-#line 280 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 325 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
-        yylhs.value.as < arithmetic_b_op > ()=h_ast::MUL;
+        yylhs.value.as < std::unique_ptr<BooleanExp> > () = std::make_unique<BinaryArithmeticBoolExp>(drv,std::move(yystack_[2].value.as < std::unique_ptr<Exp> > ()),std::move(yystack_[0].value.as < std::unique_ptr<Exp> > ()),yystack_[1].value.as < bool_a_op > ());
     }
-#line 1222 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1370 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
   case 40:
-#line 284 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 329 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<BooleanExp> > () = std::make_unique<BinaryBoolExp>(drv,std::move(yystack_[2].value.as < std::unique_ptr<BooleanExp> > ()),std::move(yystack_[0].value.as < std::unique_ptr<BooleanExp> > ()),yystack_[1].value.as < bool_b_op > ());
+    }
+#line 1378 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 41:
+#line 334 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<BooleanExp> > () = std::make_unique<UnaryBoolExp>(drv,std::move(yystack_[0].value.as < std::unique_ptr<BooleanExp> > ()),yystack_[1].value.as < bool_u_op > ());
+    }
+#line 1386 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 42:
+#line 341 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<Exp> > ()= std::make_unique<IdentifierExist>(drv,std::move(yystack_[0].value.as < std::string > ()));
+    }
+#line 1394 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 43:
+#line 345 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<Exp> > ()=std::make_unique<IntegerLiteral>(drv,yystack_[0].value.as < int > ());
+    }
+#line 1402 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 44:
+#line 349 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<Exp> > ()=std::make_unique<RealLiteral>(drv,yystack_[0].value.as < double > ());
+    }
+#line 1410 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 45:
+#line 353 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<Exp> > ()=std::make_unique<BoolLiteral>(drv,yystack_[0].value.as < bool > ());
+    }
+#line 1418 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 46:
+#line 357 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<Exp> > ()=std::make_unique<CharLiteral>(drv,yystack_[0].value.as < char > ());
+    }
+#line 1426 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 47:
+#line 361 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<Exp> > () = std::make_unique<ArithmeticExp>(drv,std::move(yystack_[2].value.as < std::unique_ptr<Exp> > ()),std::move(yystack_[0].value.as < std::unique_ptr<Exp> > ()),yystack_[1].value.as < arithmetic_b_op > ());
+    }
+#line 1434 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 48:
+#line 365 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < std::unique_ptr<Exp> > () = std::move(yystack_[1].value.as < std::unique_ptr<Exp> > ());
+    }
+#line 1442 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 49:
+#line 372 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < int > ()=yystack_[0].value.as < int > ();
+    }
+#line 1450 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 50:
+#line 376 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < int > ()=-yystack_[0].value.as < int > ();
+    }
+#line 1458 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 51:
+#line 383 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < double > ()=yystack_[0].value.as < double > ();
+    }
+#line 1466 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 52:
+#line 387 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < double > ()=-yystack_[0].value.as < double > ();
+    }
+#line 1474 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 53:
+#line 394 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < arithmetic_b_op > ()=h_ast::ADD;
+    }
+#line 1482 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 54:
+#line 398 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < arithmetic_b_op > ()=h_ast::SUB;
+    }
+#line 1490 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 55:
+#line 402 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < arithmetic_b_op > ()=h_ast::DIV;
+    }
+#line 1498 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 56:
+#line 406 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < arithmetic_b_op > ()=h_ast::MUL;
+    }
+#line 1506 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 57:
+#line 410 "/home/deal_with/CLionProjects/cse474/bison.yy"
     {
         yylhs.value.as < arithmetic_b_op > ()=h_ast::MOD;
     }
-#line 1230 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1514 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 58:
+#line 418 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < bool_a_op > ()=h_ast::GE;
+    }
+#line 1522 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 59:
+#line 422 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < bool_a_op > ()=h_ast::NE;
+    }
+#line 1530 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 60:
+#line 426 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < bool_a_op > ()=h_ast::EQ;
+    }
+#line 1538 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 61:
+#line 430 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < bool_a_op > ()=h_ast::LT;
+    }
+#line 1546 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 62:
+#line 434 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < bool_a_op > ()=h_ast::GT;
+    }
+#line 1554 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 63:
+#line 438 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < bool_a_op > ()=h_ast::LE;
+    }
+#line 1562 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 64:
+#line 445 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < bool_b_op > ()=h_ast::AND;
+    }
+#line 1570 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 65:
+#line 449 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < bool_b_op > ()=h_ast::OR;
+    }
+#line 1578 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+    break;
+
+  case 66:
+#line 456 "/home/deal_with/CLionProjects/cse474/bison.yy"
+    {
+        yylhs.value.as < bool_u_op > ()=h_ast::NOT;
+    }
+#line 1586 "/home/deal_with/CLionProjects/cse474/bison.cpp"
     break;
 
 
-#line 1234 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 1590 "/home/deal_with/CLionProjects/cse474/bison.cpp"
 
             default:
               break;
@@ -1501,102 +1857,130 @@ namespace yy {
   }
 
 
-  const signed char parser::yypact_ninf_ = -22;
+  const signed char parser::yypact_ninf_ = -57;
 
-  const signed char parser::yytable_ninf_ = -1;
+  const signed char parser::yytable_ninf_ = -39;
 
   const signed char
   parser::yypact_[] =
   {
-     -12,   -21,     6,    30,    -1,   -22,   -22,   -22,   -22,   -22,
-      30,     4,    10,   -22,   -22,    42,    10,   -22,    35,   -22,
-      13,   -22,   -22,    -4,    27,    48,    49,    56,    44,   -22,
-     -22,   -22,    50,    -4,   -22,   -22,   -22,   -22,   -22,     3,
-     -22,   -22,   -22,    -4,   -22,   -22,    37,   -22,   -22,   -22,
-     -22,   -22,    -4,     2,    -9,     3,   -22,     3,    51,   -22,
-      52,     3,   -22,   -22
+     -10,   -19,    18,    62,    19,   -57,   -57,   -57,   -57,   -57,
+      62,    40,    21,   -57,   -57,    45,    85,    21,   -57,   101,
+     -57,    58,   -57,   -57,   -57,    22,   -57,    12,    97,    -3,
+      -3,   108,    96,   -57,   -57,   -57,   100,   -57,    74,   -57,
+       1,    22,   -57,   -57,   -57,   -57,   -57,    68,   -57,   -57,
+     -57,   -57,   -57,   -11,    15,    63,    -3,   -13,    22,   -57,
+     -57,     8,   -57,   -57,   -57,    95,   -57,   -57,   -57,   -57,
+     -57,    22,    -6,    13,   -57,   -57,    19,    -3,   -57,   -57,
+     -57,   -57,   -57,   -57,    22,   -57,    19,    68,    -3,   -57,
+     -57,    68,   102,   -57,   103,    68,   -57,    89,    68,   -57,
+      -9,   -57,   -57,    19,   -57
   };
 
   const signed char
   parser::yydefact_[] =
   {
        0,     3,     0,     0,     0,     1,     9,    10,    11,    12,
-       4,     0,     0,    16,     2,     0,     0,     5,    13,     7,
-       0,     6,     8,     0,     0,     0,     0,     0,     0,    17,
-      18,    19,     0,     0,    31,    32,    35,    33,    34,    14,
-      15,    25,    27,     0,    20,    21,     0,    37,    36,    39,
-      38,    40,     0,     0,     0,    24,    30,    29,     0,    26,
-       0,    28,    22,    23
+       4,     0,     0,    17,     2,     0,     0,     0,     5,    13,
+       7,     0,    15,     6,     8,     0,    16,     0,     0,     0,
+       0,     0,     0,    18,    19,    20,     0,    23,    31,    24,
+       0,     0,    42,    49,    46,    51,    45,    14,    43,    44,
+      34,    36,    66,    45,     0,     0,     0,     0,     0,    21,
+      22,     0,    28,    50,    52,     0,    54,    53,    56,    55,
+      57,     0,     0,     0,    64,    65,     0,     0,    58,    60,
+      63,    62,    61,    59,     0,    41,     0,    27,     0,    32,
+      48,    47,     0,    35,     0,    37,    33,    40,    39,    29,
+       0,    25,    26,     0,    30
   };
 
   const signed char
   parser::yypgoto_[] =
   {
-     -22,   -22,   -22,   -22,    -7,   -22,    45,   -22,   -22,   -22,
-     -22,   -22,   -22,   -22,   -22,    -6,   -22
+     -57,   -57,   -57,   -57,    -7,   -57,    99,   -57,   -56,   -57,
+     -57,   -57,   -57,   -57,   -57,   -57,   -57,   -57,   -57,   -57,
+     -28,   -25,   -57,   -57,   -57,   -57,   -57,   -57
   };
 
   const signed char
   parser::yydefgoto_[] =
   {
-      -1,     2,     4,    10,    11,    12,    19,    14,    20,    29,
-      30,    31,    32,    53,    54,    39,    52
+      -1,     2,     4,    10,    11,    12,    20,    14,    15,    21,
+      33,    34,    35,    36,    37,    38,    62,    39,    72,    73,
+      54,    55,    48,    49,    71,    84,    77,    56
   };
 
   const signed char
   parser::yytable_[] =
   {
-      33,    60,     1,    15,     3,    33,     5,    47,    48,    49,
-      50,    51,    58,    28,    13,    16,    17,    34,    35,    36,
-      37,    38,    34,    35,    36,    37,    38,    46,    59,    24,
-      25,    26,     6,     7,     8,     9,    18,    55,    23,    27,
-      40,    47,    48,    49,    50,    51,    57,    56,    61,     6,
-       7,     8,     9,    16,    21,    16,    44,    41,    42,    43,
-       0,    22,    45,    62,    63
+      47,    40,    57,    16,    92,    89,    41,    74,    75,   -38,
+     -38,    74,    75,     1,    32,     3,    65,    40,     5,    52,
+      96,    50,    41,    94,   -38,    86,    40,   -38,    85,   103,
+      99,    41,    13,    87,    93,    74,    75,    42,    43,    44,
+      45,    53,    63,    13,    64,    88,    91,   104,    95,    97,
+      76,    17,    18,    42,    43,    44,    45,    46,    22,    98,
+     100,    19,    42,    43,    44,    45,    46,    66,    67,    68,
+      69,    70,    66,    67,    68,    69,    70,    78,    79,    80,
+      81,    82,    83,    26,    27,    28,     6,     7,     8,     9,
+       6,     7,     8,     9,    29,    30,    17,    23,    31,    66,
+      67,    68,    69,    70,    25,    90,    51,    17,    59,    74,
+      75,    58,    60,    61,   101,   102,    24
   };
 
   const signed char
   parser::yycheck_[] =
   {
-       9,    10,    14,    10,    25,     9,     0,     4,     5,     6,
-       7,     8,    10,    20,    15,    11,    12,    26,    27,    28,
-      29,    30,    26,    27,    28,    29,    30,    33,    26,    16,
-      17,    18,    19,    20,    21,    22,    26,    43,     3,    26,
-      13,     4,     5,     6,     7,     8,    52,    10,    54,    19,
-      20,    21,    22,    11,    12,    11,    12,     9,     9,     3,
-      -1,    16,    12,    12,    12
+      25,     4,    30,    10,    10,    61,     9,    20,    21,    20,
+      21,    20,    21,    23,    21,    34,    41,     4,     0,    22,
+      76,     9,     9,    10,    35,    38,     4,    38,    56,    38,
+      86,     9,    24,    58,    40,    20,    21,    40,    41,    42,
+      43,    44,    41,    24,    43,    37,    71,   103,    73,    77,
+      35,    11,    12,    40,    41,    42,    43,    44,    13,    84,
+      88,    40,    40,    41,    42,    43,    44,     4,     5,     6,
+       7,     8,     4,     5,     6,     7,     8,    14,    15,    16,
+      17,    18,    19,    25,    26,    27,    28,    29,    30,    31,
+      28,    29,    30,    31,    36,    37,    11,    12,    40,     4,
+       5,     6,     7,     8,     3,    10,     9,    11,    12,    20,
+      21,     3,    12,    39,    12,    12,    17
   };
 
   const signed char
   parser::yystos_[] =
   {
-       0,    14,    32,    25,    33,     0,    19,    20,    21,    22,
-      34,    35,    36,    15,    38,    35,    11,    12,    26,    37,
-      39,    12,    37,     3,    16,    17,    18,    26,    35,    40,
-      41,    42,    43,     9,    26,    27,    28,    29,    30,    46,
-      13,     9,     9,     3,    12,    12,    46,     4,     5,     6,
-       7,     8,    47,    44,    45,    46,    10,    46,    10,    26,
-      10,    46,    12,    12
+       0,    23,    47,    34,    48,     0,    28,    29,    30,    31,
+      49,    50,    51,    24,    53,    54,    50,    11,    12,    40,
+      52,    55,    13,    12,    52,     3,    25,    26,    27,    36,
+      37,    40,    50,    56,    57,    58,    59,    60,    61,    63,
+       4,     9,    40,    41,    42,    43,    44,    67,    68,    69,
+       9,     9,    22,    44,    66,    67,    73,    66,     3,    12,
+      12,    39,    62,    41,    43,    67,     4,     5,     6,     7,
+       8,    70,    64,    65,    20,    21,    35,    72,    14,    15,
+      16,    17,    18,    19,    71,    66,    38,    67,    37,    54,
+      10,    67,    10,    40,    10,    67,    54,    66,    67,    54,
+      66,    12,    12,    38,    54
   };
 
   const signed char
   parser::yyr1_[] =
   {
-       0,    31,    32,    33,    33,    34,    34,    35,    35,    36,
-      36,    36,    36,    37,    37,    38,    39,    39,    40,    40,
-      40,    40,    41,    42,    43,    44,    44,    45,    45,    46,
-      46,    46,    46,    46,    46,    46,    47,    47,    47,    47,
-      47
+       0,    46,    47,    48,    48,    49,    49,    50,    50,    51,
+      51,    51,    51,    52,    52,    53,    54,    55,    55,    56,
+      56,    56,    56,    56,    56,    57,    58,    59,    60,    61,
+      61,    62,    62,    63,    64,    64,    65,    65,    66,    66,
+      66,    66,    67,    67,    67,    67,    67,    67,    67,    68,
+      68,    69,    69,    70,    70,    70,    70,    70,    71,    71,
+      71,    71,    71,    71,    72,    72,    73
   };
 
   const signed char
   parser::yyr2_[] =
   {
        0,     2,     3,     0,     2,     2,     3,     2,     3,     1,
-       1,     1,     1,     1,     3,     4,     0,     2,     1,     1,
-       2,     2,     5,     5,     3,     0,     2,     0,     2,     3,
-       3,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1
+       1,     1,     1,     1,     3,     2,     3,     0,     2,     1,
+       1,     2,     2,     1,     1,     5,     5,     3,     2,     4,
+       6,     0,     2,     4,     0,     2,     0,     2,     1,     3,
+       3,     2,     1,     1,     1,     1,     1,     3,     3,     1,
+       2,     1,     2,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1
   };
 
 
@@ -1608,24 +1992,30 @@ namespace yy {
   {
   "\"end of file\"", "error", "$undefined", "\":=\"", "\"-\"", "\"+\"",
   "\"*\"", "\"/\"", "\"%\"", "\"(\"", "\")\"", "\",\"", "\";\"", "\".\"",
-  "\"program\"", "BEGIN", "END", "READ", "WRITE", "INTEGER", "REAL",
-  "CHAR", "BOOLEAN", "TRUE", "FALSE", "VAR", "\"identifier\"", "SV_INT",
-  "SV_CHAR", "SV_REAL", "SV_BOOL", "$accept", "program", "declare_block",
+  "\">=\"", "\"==\"", "\"<=\"", "\">\"", "\"<\"", "\"!=\"", "\"&&\"",
+  "\"||\"", "\"!\"", "\"program\"", "BEGIN", "END", "READ", "WRITE",
+  "INTEGER", "REAL", "CHAR", "BOOLEAN", "TRUE", "FALSE", "VAR", "DO",
+  "WHILE", "IF", "THEN", "ELSE", "\"identifier\"", "SV_INT", "SV_CHAR",
+  "SV_REAL", "SV_BOOL", "NEG", "$accept", "program", "declare_block",
   "declare_line_list", "declare_line", "type_identifier",
-  "declare_statement", "main_block", "statement_list", "statement",
-  "read_statement", "write_statement", "assignment", "identifier_list",
-  "expression_list", "expression", "alu", YY_NULLPTR
+  "declare_statement", "main_block", "basic_block", "statement_list",
+  "statement", "read_statement", "write_statement", "assignment",
+  "if_then_else", "if_else_if", "else_block", "while_do",
+  "identifier_list", "expression_list", "boolean_expression", "expression",
+  "sv_sign_int", "sv_sign_real", "a_b_op", "b_a_op", "b_b_op", "b_u_op", YY_NULLPTR
   };
 
 #if YYDEBUG
   const short
   parser::yyrline_[] =
   {
-       0,    88,    88,    97,   101,   108,   113,   120,   125,   133,
-     134,   135,   136,   140,   144,   151,   158,   162,   169,   173,
-     177,   181,   188,   195,   202,   209,   213,   221,   225,   235,
-     240,   244,   248,   252,   256,   260,   267,   271,   275,   279,
-     283
+       0,   110,   110,   119,   123,   130,   135,   142,   147,   155,
+     156,   157,   158,   162,   166,   173,   180,   187,   191,   199,
+     203,   207,   211,   215,   219,   226,   233,   240,   247,   255,
+     260,   268,   272,   279,   286,   290,   298,   302,   320,   324,
+     328,   333,   340,   344,   348,   352,   356,   360,   364,   371,
+     375,   382,   386,   393,   397,   401,   405,   409,   417,   421,
+     425,   429,   433,   437,   444,   448,   455
   };
 
   // Print the state stack on the debug stream.
@@ -1659,9 +2049,9 @@ namespace yy {
 
 
 } // yy
-#line 1663 "/home/deal_with/CLionProjects/cse474/bison.cpp"
+#line 2053 "/home/deal_with/CLionProjects/cse474/bison.cpp"
 
-#line 287 "/home/deal_with/CLionProjects/cse474/bison.yy"
+#line 461 "/home/deal_with/CLionProjects/cse474/bison.yy"
 
 
 void yy::parser::error (const location_type& l, const std::string& m)

@@ -190,8 +190,8 @@ namespace h_ast {
     };
 
     struct BinaryArithmeticBoolExp : public BooleanExp {
-        bool_a_op op;
-        std::unique_ptr<Exp> left, right;
+        bool_a_op _op;
+        std::unique_ptr<Exp> _left, _right;
 
         BinaryArithmeticBoolExp(driver &drv, std::unique_ptr<Exp> left, std::unique_ptr<Exp> right, bool_a_op op);
 

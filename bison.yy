@@ -47,6 +47,15 @@ using namespace h_ast;
     COMMA   ","
     SEMI    ";"
     DOT     "."
+    GE      ">="
+    EQ      "=="
+    LE      "<="
+    GT      ">"
+    LT      "<"
+    NE      "!="
+    AND     "&&"
+    OR      "||"
+    NOT     "!"
 ;
 
 %token  PROGRAM "program"
@@ -61,6 +70,11 @@ using namespace h_ast;
         TRUE
         FALSE
         VAR
+        DO
+        WHILE
+        IF
+        THEN
+        ELSE
         ;
 %token <std::string> IDENTIFIER "identifier"
 %token <int> SV_INT
@@ -68,20 +82,28 @@ using namespace h_ast;
 %token <double> SV_REAL
 %token <bool> SV_BOOL
 
+%type <int> sv_sign_int
+%type <double> sv_sign_real
 
 
-%type <std::unique_ptr<StatementList>> declare_block declare_line_list main_block statement_list
+%type <std::unique_ptr<StatementList>> declare_block declare_line_list main_block statement_list basic_block
 %type <std::unique_ptr<MultiDeclarationStatement>> declare_line
 %type <std::pair<std::string,std::unique_ptr<Exp>>> declare_statement
 %type <primitive> type_identifier
 %type <std::unique_ptr<Exp>> expression
-%type <arithmetic_b_op> alu
+%type <arithmetic_b_op> a_b_op
+%type <bool_a_op> b_a_op
+%type <bool_b_op> b_b_op
+%type <bool_u_op> b_u_op
 %type <std::vector<std::unique_ptr<IdentifierExist>>> identifier_list
 %type <std::unique_ptr<AssignmentStatement>> assignment
-%type <std::unique_ptr<StatementLike>> statement
+%type <std::unique_ptr<StatementLike>> statement else_block
 %type <std::unique_ptr<ReadStatement>> read_statement
 %type <std::unique_ptr<WriteStatement>> write_statement
 %type <std::vector<std::unique_ptr<Exp>>> expression_list
+%type <std::unique_ptr<IfThenElse>> if_then_else if_else_if
+%type <std::unique_ptr<WhileDo>> while_do
+%type <std::unique_ptr<BooleanExp>> boolean_expression
 %%
 %start program;
 program:
@@ -148,12 +170,19 @@ declare_statement:
     ;
 
 main_block:
-        BEGIN statement_list END "." 
+        basic_block "." 
+    {
+        $$=std::move($1);
+    }
+    ;
+    
+basic_block:
+    BEGIN statement_list END
     {
         $$=std::move($2);
     }
     ;
-    
+
 statement_list:
         %empty
     {
@@ -165,6 +194,7 @@ statement_list:
         $$=std::move($1);
     }
     ;
+
 statement:
         read_statement
     {
@@ -179,6 +209,14 @@ statement:
         $$=std::move($1);
     }
     |   assignment ";"
+    {
+        $$=std::move($1);
+    }
+    |   if_then_else
+    {
+        $$=std::move($1);
+    }
+    |   while_do
     {
         $$=std::move($1);
     }
@@ -205,6 +243,45 @@ assignment:
     }
     ;
 
+if_then_else:
+        if_else_if else_block
+    {   
+        $$=std::move($1);
+        $$->_else = std::move($2);
+    }
+    ;
+
+if_else_if:
+        IF boolean_expression THEN basic_block
+    {
+        $$ = std::make_unique<IfThenElse>();
+        $$->add(std::move($2),std::move($4));
+    }
+    |   if_else_if ELSE IF boolean_expression THEN basic_block
+    {
+        $1->add(std::move($4),std::move($6));
+        $$=std::move($1);
+    }
+    ;
+
+else_block:
+        %empty
+    {
+        $$=std::unique_ptr<StatementLike>(nullptr);
+    }
+    |   ELSE basic_block
+    {
+        $$=std::move($2);
+    }
+    ;
+
+while_do:
+        WHILE boolean_expression DO basic_block
+    {
+        $$=std::make_unique<WhileDo>(std::move($2),std::move($4));
+    }
+    ;
+    
 identifier_list:
         %empty
     {
@@ -229,27 +306,46 @@ expression_list:
     }
     ;
 
-%left "+" "-";
-%left "*" "/" "%";
+%left "==" "!=" "<" ">" ">=" "<=" ;
+%left "+" "-" "||" ;
+%left "*" "/" "%" "&&" ;
+%precedence NEG;
+%precedence "!";
+/*
+https://www.gnu.org/software/bison/manual/html_node/Infix-Calc.html
+https://stackoverflow.com/questions/57835669/flex-a-number-with-a-leading-sign-but-dont-eat-addition-subtraction?rq=1
+*/
+
+boolean_expression:
+        SV_BOOL
+    {
+        $$ = std::make_unique<LiteralBoolExp>(drv,std::make_unique<BoolLiteral>(drv,$1));
+    }
+    |   expression b_a_op expression
+    {
+        $$ = std::make_unique<BinaryArithmeticBoolExp>(drv,std::move($1),std::move($3),$2);
+    }
+    |   boolean_expression b_b_op boolean_expression
+    {
+        $$ = std::make_unique<BinaryBoolExp>(drv,std::move($1),std::move($3),$2);
+    }
+    |
+    b_u_op boolean_expression %prec "!"
+    {
+        $$ = std::make_unique<UnaryBoolExp>(drv,std::move($2),$1);
+    }
+    ;
+
 expression:
-        expression alu expression
-    {
-        $$ = std::make_unique<ArithmeticExp>(drv,std::move($1),std::move($3),$2);
-    }
-    
-    |   "(" expression ")"
-    {
-        $$ = std::move($2);
-    }
-    |   IDENTIFIER
+        IDENTIFIER
     {
         $$= std::make_unique<IdentifierExist>(drv,std::move($1));
     }
-    |   SV_INT
+    |   sv_sign_int
     {
         $$=std::make_unique<IntegerLiteral>(drv,$1);
     }
-    |   SV_REAL
+    |   sv_sign_real
     {
         $$=std::make_unique<RealLiteral>(drv,$1);
     }
@@ -261,9 +357,39 @@ expression:
     {
         $$=std::make_unique<CharLiteral>(drv,$1);
     }
+    |   expression a_b_op expression
+    {
+        $$ = std::make_unique<ArithmeticExp>(drv,std::move($1),std::move($3),$2);
+    }
+    |   "(" expression ")"
+    {
+        $$ = std::move($2);
+    }
     ;
 
-alu:
+sv_sign_int:
+        SV_INT
+    {
+        $$=$1;
+    }
+    |   "-" SV_INT %prec NEG
+    {
+        $$=-$2;
+    }
+    ;
+
+sv_sign_real:
+        SV_REAL
+    {
+        $$=$1;
+    }
+    |   "-" SV_REAL %prec NEG
+    {
+        $$=-$2;
+    }
+    ;
+
+a_b_op:
         "+"
     {
         $$=h_ast::ADD;
@@ -280,10 +406,58 @@ alu:
     {
         $$=h_ast::MUL;
     }
-    | "%"
+    |   "%"
     {
         $$=h_ast::MOD;
     }
+    ;
+
+
+b_a_op:
+        ">="
+    {
+        $$=h_ast::GE;
+    }
+    |   "!="
+    {
+        $$=h_ast::NE;
+    }
+    |   "=="
+    {
+        $$=h_ast::EQ;
+    }
+    |   "<"
+    {
+        $$=h_ast::LT;
+    }
+    |   ">"
+    {
+        $$=h_ast::GT;
+    }
+    |   "<="
+    {
+        $$=h_ast::LE;
+    }
+    ;
+
+b_b_op:
+        "&&"
+    {
+        $$=h_ast::AND;
+    }
+    |   "||"
+    {
+        $$=h_ast::OR;
+    }
+    ;
+
+b_u_op:
+        "!"
+    {
+        $$=h_ast::NOT;
+    }
+    ;
+
 %%
 
 void yy::parser::error (const location_type& l, const std::string& m)

@@ -394,59 +394,82 @@ namespace yy {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
-      // alu
+      // a_b_op
       char dummy1[sizeof (arithmetic_b_op)];
 
       // SV_BOOL
       char dummy2[sizeof (bool)];
 
+      // b_a_op
+      char dummy3[sizeof (bool_a_op)];
+
+      // b_b_op
+      char dummy4[sizeof (bool_b_op)];
+
+      // b_u_op
+      char dummy5[sizeof (bool_u_op)];
+
       // SV_CHAR
-      char dummy3[sizeof (char)];
+      char dummy6[sizeof (char)];
 
       // SV_REAL
-      char dummy4[sizeof (double)];
+      // sv_sign_real
+      char dummy7[sizeof (double)];
 
       // SV_INT
-      char dummy5[sizeof (int)];
+      // sv_sign_int
+      char dummy8[sizeof (int)];
 
       // type_identifier
-      char dummy6[sizeof (primitive)];
+      char dummy9[sizeof (primitive)];
 
       // declare_statement
-      char dummy7[sizeof (std::pair<std::string,std::unique_ptr<Exp>>)];
+      char dummy10[sizeof (std::pair<std::string,std::unique_ptr<Exp>>)];
 
       // "identifier"
-      char dummy8[sizeof (std::string)];
+      char dummy11[sizeof (std::string)];
 
       // assignment
-      char dummy9[sizeof (std::unique_ptr<AssignmentStatement>)];
+      char dummy12[sizeof (std::unique_ptr<AssignmentStatement>)];
+
+      // boolean_expression
+      char dummy13[sizeof (std::unique_ptr<BooleanExp>)];
 
       // expression
-      char dummy10[sizeof (std::unique_ptr<Exp>)];
+      char dummy14[sizeof (std::unique_ptr<Exp>)];
+
+      // if_then_else
+      // if_else_if
+      char dummy15[sizeof (std::unique_ptr<IfThenElse>)];
 
       // declare_line
-      char dummy11[sizeof (std::unique_ptr<MultiDeclarationStatement>)];
+      char dummy16[sizeof (std::unique_ptr<MultiDeclarationStatement>)];
 
       // read_statement
-      char dummy12[sizeof (std::unique_ptr<ReadStatement>)];
+      char dummy17[sizeof (std::unique_ptr<ReadStatement>)];
 
       // statement
-      char dummy13[sizeof (std::unique_ptr<StatementLike>)];
+      // else_block
+      char dummy18[sizeof (std::unique_ptr<StatementLike>)];
 
       // declare_block
       // declare_line_list
       // main_block
+      // basic_block
       // statement_list
-      char dummy14[sizeof (std::unique_ptr<StatementList>)];
+      char dummy19[sizeof (std::unique_ptr<StatementList>)];
+
+      // while_do
+      char dummy20[sizeof (std::unique_ptr<WhileDo>)];
 
       // write_statement
-      char dummy15[sizeof (std::unique_ptr<WriteStatement>)];
+      char dummy21[sizeof (std::unique_ptr<WriteStatement>)];
 
       // expression_list
-      char dummy16[sizeof (std::vector<std::unique_ptr<Exp>>)];
+      char dummy22[sizeof (std::vector<std::unique_ptr<Exp>>)];
 
       // identifier_list
-      char dummy17[sizeof (std::vector<std::unique_ptr<IdentifierExist>>)];
+      char dummy23[sizeof (std::vector<std::unique_ptr<IdentifierExist>>)];
     };
 
     /// The size of the largest semantic type.
@@ -506,23 +529,38 @@ namespace yy {
         H_COMMA = 266,
         H_SEMI = 267,
         H_DOT = 268,
-        H_PROGRAM = 269,
-        H_BEGIN = 270,
-        H_END = 271,
-        H_READ = 272,
-        H_WRITE = 273,
-        H_INTEGER = 274,
-        H_REAL = 275,
-        H_CHAR = 276,
-        H_BOOLEAN = 277,
-        H_TRUE = 278,
-        H_FALSE = 279,
-        H_VAR = 280,
-        H_IDENTIFIER = 281,
-        H_SV_INT = 282,
-        H_SV_CHAR = 283,
-        H_SV_REAL = 284,
-        H_SV_BOOL = 285
+        H_GE = 269,
+        H_EQ = 270,
+        H_LE = 271,
+        H_GT = 272,
+        H_LT = 273,
+        H_NE = 274,
+        H_AND = 275,
+        H_OR = 276,
+        H_NOT = 277,
+        H_PROGRAM = 278,
+        H_BEGIN = 279,
+        H_END = 280,
+        H_READ = 281,
+        H_WRITE = 282,
+        H_INTEGER = 283,
+        H_REAL = 284,
+        H_CHAR = 285,
+        H_BOOLEAN = 286,
+        H_TRUE = 287,
+        H_FALSE = 288,
+        H_VAR = 289,
+        H_DO = 290,
+        H_WHILE = 291,
+        H_IF = 292,
+        H_THEN = 293,
+        H_ELSE = 294,
+        H_IDENTIFIER = 295,
+        H_SV_INT = 296,
+        H_SV_CHAR = 297,
+        H_SV_REAL = 298,
+        H_SV_BOOL = 299,
+        H_NEG = 300
       };
     };
 
@@ -597,6 +635,45 @@ namespace yy {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const bool& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, bool_a_op&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const bool_a_op& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, bool_b_op&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const bool_b_op& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, bool_u_op&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const bool_u_op& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -694,6 +771,19 @@ namespace yy {
       {}
 #endif
 #if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::unique_ptr<BooleanExp>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::unique_ptr<BooleanExp>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
       basic_symbol (typename Base::kind_type t, std::unique_ptr<Exp>&& v, location_type&& l)
         : Base (t)
         , value (std::move (v))
@@ -701,6 +791,19 @@ namespace yy {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const std::unique_ptr<Exp>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::unique_ptr<IfThenElse>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::unique_ptr<IfThenElse>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -753,6 +856,19 @@ namespace yy {
       {}
 #else
       basic_symbol (typename Base::kind_type t, const std::unique_ptr<StatementList>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, std::unique_ptr<WhileDo>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const std::unique_ptr<WhileDo>& v, const location_type& l)
         : Base (t)
         , value (v)
         , location (l)
@@ -820,74 +936,103 @@ namespace yy {
         // Type destructor.
 switch (yytype)
     {
-      case 47: // alu
+      case 70: // a_b_op
         value.template destroy< arithmetic_b_op > ();
         break;
 
-      case 30: // SV_BOOL
+      case 44: // SV_BOOL
         value.template destroy< bool > ();
         break;
 
-      case 28: // SV_CHAR
+      case 71: // b_a_op
+        value.template destroy< bool_a_op > ();
+        break;
+
+      case 72: // b_b_op
+        value.template destroy< bool_b_op > ();
+        break;
+
+      case 73: // b_u_op
+        value.template destroy< bool_u_op > ();
+        break;
+
+      case 42: // SV_CHAR
         value.template destroy< char > ();
         break;
 
-      case 29: // SV_REAL
+      case 43: // SV_REAL
+      case 69: // sv_sign_real
         value.template destroy< double > ();
         break;
 
-      case 27: // SV_INT
+      case 41: // SV_INT
+      case 68: // sv_sign_int
         value.template destroy< int > ();
         break;
 
-      case 36: // type_identifier
+      case 51: // type_identifier
         value.template destroy< primitive > ();
         break;
 
-      case 37: // declare_statement
+      case 52: // declare_statement
         value.template destroy< std::pair<std::string,std::unique_ptr<Exp>> > ();
         break;
 
-      case 26: // "identifier"
+      case 40: // "identifier"
         value.template destroy< std::string > ();
         break;
 
-      case 43: // assignment
+      case 59: // assignment
         value.template destroy< std::unique_ptr<AssignmentStatement> > ();
         break;
 
-      case 46: // expression
+      case 66: // boolean_expression
+        value.template destroy< std::unique_ptr<BooleanExp> > ();
+        break;
+
+      case 67: // expression
         value.template destroy< std::unique_ptr<Exp> > ();
         break;
 
-      case 35: // declare_line
+      case 60: // if_then_else
+      case 61: // if_else_if
+        value.template destroy< std::unique_ptr<IfThenElse> > ();
+        break;
+
+      case 50: // declare_line
         value.template destroy< std::unique_ptr<MultiDeclarationStatement> > ();
         break;
 
-      case 41: // read_statement
+      case 57: // read_statement
         value.template destroy< std::unique_ptr<ReadStatement> > ();
         break;
 
-      case 40: // statement
+      case 56: // statement
+      case 62: // else_block
         value.template destroy< std::unique_ptr<StatementLike> > ();
         break;
 
-      case 33: // declare_block
-      case 34: // declare_line_list
-      case 38: // main_block
-      case 39: // statement_list
+      case 48: // declare_block
+      case 49: // declare_line_list
+      case 53: // main_block
+      case 54: // basic_block
+      case 55: // statement_list
         value.template destroy< std::unique_ptr<StatementList> > ();
         break;
 
-      case 42: // write_statement
+      case 63: // while_do
+        value.template destroy< std::unique_ptr<WhileDo> > ();
+        break;
+
+      case 58: // write_statement
         value.template destroy< std::unique_ptr<WriteStatement> > ();
         break;
 
-      case 45: // expression_list
+      case 65: // expression_list
         value.template destroy< std::vector<std::unique_ptr<Exp>> > ();
         break;
 
-      case 44: // identifier_list
+      case 64: // identifier_list
         value.template destroy< std::vector<std::unique_ptr<IdentifierExist>> > ();
         break;
 
@@ -967,13 +1112,13 @@ switch (yytype)
       symbol_type (int tok, location_type l)
         : super_type(token_type (tok), std::move (l))
       {
-        YY_ASSERT (tok == token::H_EOF || tok == token::H_ASSIGN || tok == token::H_MINUS || tok == token::H_PLUS || tok == token::H_STAR || tok == token::H_SLASH || tok == token::H_MOD || tok == token::H_LPAREN || tok == token::H_RPAREN || tok == token::H_COMMA || tok == token::H_SEMI || tok == token::H_DOT || tok == token::H_PROGRAM || tok == token::H_BEGIN || tok == token::H_END || tok == token::H_READ || tok == token::H_WRITE || tok == token::H_INTEGER || tok == token::H_REAL || tok == token::H_CHAR || tok == token::H_BOOLEAN || tok == token::H_TRUE || tok == token::H_FALSE || tok == token::H_VAR);
+        YY_ASSERT (tok == token::H_EOF || tok == token::H_ASSIGN || tok == token::H_MINUS || tok == token::H_PLUS || tok == token::H_STAR || tok == token::H_SLASH || tok == token::H_MOD || tok == token::H_LPAREN || tok == token::H_RPAREN || tok == token::H_COMMA || tok == token::H_SEMI || tok == token::H_DOT || tok == token::H_GE || tok == token::H_EQ || tok == token::H_LE || tok == token::H_GT || tok == token::H_LT || tok == token::H_NE || tok == token::H_AND || tok == token::H_OR || tok == token::H_NOT || tok == token::H_PROGRAM || tok == token::H_BEGIN || tok == token::H_END || tok == token::H_READ || tok == token::H_WRITE || tok == token::H_INTEGER || tok == token::H_REAL || tok == token::H_CHAR || tok == token::H_BOOLEAN || tok == token::H_TRUE || tok == token::H_FALSE || tok == token::H_VAR || tok == token::H_DO || tok == token::H_WHILE || tok == token::H_IF || tok == token::H_THEN || tok == token::H_ELSE || tok == token::H_NEG);
       }
 #else
       symbol_type (int tok, const location_type& l)
         : super_type(token_type (tok), l)
       {
-        YY_ASSERT (tok == token::H_EOF || tok == token::H_ASSIGN || tok == token::H_MINUS || tok == token::H_PLUS || tok == token::H_STAR || tok == token::H_SLASH || tok == token::H_MOD || tok == token::H_LPAREN || tok == token::H_RPAREN || tok == token::H_COMMA || tok == token::H_SEMI || tok == token::H_DOT || tok == token::H_PROGRAM || tok == token::H_BEGIN || tok == token::H_END || tok == token::H_READ || tok == token::H_WRITE || tok == token::H_INTEGER || tok == token::H_REAL || tok == token::H_CHAR || tok == token::H_BOOLEAN || tok == token::H_TRUE || tok == token::H_FALSE || tok == token::H_VAR);
+        YY_ASSERT (tok == token::H_EOF || tok == token::H_ASSIGN || tok == token::H_MINUS || tok == token::H_PLUS || tok == token::H_STAR || tok == token::H_SLASH || tok == token::H_MOD || tok == token::H_LPAREN || tok == token::H_RPAREN || tok == token::H_COMMA || tok == token::H_SEMI || tok == token::H_DOT || tok == token::H_GE || tok == token::H_EQ || tok == token::H_LE || tok == token::H_GT || tok == token::H_LT || tok == token::H_NE || tok == token::H_AND || tok == token::H_OR || tok == token::H_NOT || tok == token::H_PROGRAM || tok == token::H_BEGIN || tok == token::H_END || tok == token::H_READ || tok == token::H_WRITE || tok == token::H_INTEGER || tok == token::H_REAL || tok == token::H_CHAR || tok == token::H_BOOLEAN || tok == token::H_TRUE || tok == token::H_FALSE || tok == token::H_VAR || tok == token::H_DO || tok == token::H_WHILE || tok == token::H_IF || tok == token::H_THEN || tok == token::H_ELSE || tok == token::H_NEG);
       }
 #endif
 #if 201103L <= YY_CPLUSPLUS
@@ -1261,6 +1406,141 @@ switch (yytype)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_GE (location_type l)
+      {
+        return symbol_type (token::H_GE, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_GE (const location_type& l)
+      {
+        return symbol_type (token::H_GE, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_EQ (location_type l)
+      {
+        return symbol_type (token::H_EQ, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_EQ (const location_type& l)
+      {
+        return symbol_type (token::H_EQ, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_LE (location_type l)
+      {
+        return symbol_type (token::H_LE, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_LE (const location_type& l)
+      {
+        return symbol_type (token::H_LE, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_GT (location_type l)
+      {
+        return symbol_type (token::H_GT, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_GT (const location_type& l)
+      {
+        return symbol_type (token::H_GT, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_LT (location_type l)
+      {
+        return symbol_type (token::H_LT, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_LT (const location_type& l)
+      {
+        return symbol_type (token::H_LT, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_NE (location_type l)
+      {
+        return symbol_type (token::H_NE, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_NE (const location_type& l)
+      {
+        return symbol_type (token::H_NE, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_AND (location_type l)
+      {
+        return symbol_type (token::H_AND, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_AND (const location_type& l)
+      {
+        return symbol_type (token::H_AND, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_OR (location_type l)
+      {
+        return symbol_type (token::H_OR, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_OR (const location_type& l)
+      {
+        return symbol_type (token::H_OR, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_NOT (location_type l)
+      {
+        return symbol_type (token::H_NOT, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_NOT (const location_type& l)
+      {
+        return symbol_type (token::H_NOT, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_PROGRAM (location_type l)
       {
         return symbol_type (token::H_PROGRAM, std::move (l));
@@ -1441,6 +1721,81 @@ switch (yytype)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_DO (location_type l)
+      {
+        return symbol_type (token::H_DO, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_DO (const location_type& l)
+      {
+        return symbol_type (token::H_DO, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_WHILE (location_type l)
+      {
+        return symbol_type (token::H_WHILE, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_WHILE (const location_type& l)
+      {
+        return symbol_type (token::H_WHILE, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_IF (location_type l)
+      {
+        return symbol_type (token::H_IF, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_IF (const location_type& l)
+      {
+        return symbol_type (token::H_IF, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_THEN (location_type l)
+      {
+        return symbol_type (token::H_THEN, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_THEN (const location_type& l)
+      {
+        return symbol_type (token::H_THEN, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_ELSE (location_type l)
+      {
+        return symbol_type (token::H_ELSE, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_ELSE (const location_type& l)
+      {
+        return symbol_type (token::H_ELSE, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_IDENTIFIER (std::string v, location_type l)
       {
         return symbol_type (token::H_IDENTIFIER, std::move (v), std::move (l));
@@ -1511,6 +1866,21 @@ switch (yytype)
       make_SV_BOOL (const bool& v, const location_type& l)
       {
         return symbol_type (token::H_SV_BOOL, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_NEG (location_type l)
+      {
+        return symbol_type (token::H_NEG, std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_NEG (const location_type& l)
+      {
+        return symbol_type (token::H_NEG, l);
       }
 #endif
 
@@ -1819,10 +2189,10 @@ switch (yytype)
     enum
     {
       yyeof_ = 0,
-      yylast_ = 64,     ///< Last index in yytable_.
-      yynnts_ = 17,  ///< Number of nonterminal symbols.
+      yylast_ = 116,     ///< Last index in yytable_.
+      yynnts_ = 28,  ///< Number of nonterminal symbols.
       yyfinal_ = 5, ///< Termination state number.
-      yyntokens_ = 31  ///< Number of tokens.
+      yyntokens_ = 46  ///< Number of tokens.
     };
 
 
@@ -1868,9 +2238,11 @@ switch (yytype)
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30
+      25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
+      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
+      45
     };
-    const int user_token_number_max_ = 285;
+    const int user_token_number_max_ = 300;
 
     if (t <= 0)
       return yyeof_;
@@ -1890,74 +2262,103 @@ switch (yytype)
   {
     switch (this->type_get ())
     {
-      case 47: // alu
+      case 70: // a_b_op
         value.move< arithmetic_b_op > (std::move (that.value));
         break;
 
-      case 30: // SV_BOOL
+      case 44: // SV_BOOL
         value.move< bool > (std::move (that.value));
         break;
 
-      case 28: // SV_CHAR
+      case 71: // b_a_op
+        value.move< bool_a_op > (std::move (that.value));
+        break;
+
+      case 72: // b_b_op
+        value.move< bool_b_op > (std::move (that.value));
+        break;
+
+      case 73: // b_u_op
+        value.move< bool_u_op > (std::move (that.value));
+        break;
+
+      case 42: // SV_CHAR
         value.move< char > (std::move (that.value));
         break;
 
-      case 29: // SV_REAL
+      case 43: // SV_REAL
+      case 69: // sv_sign_real
         value.move< double > (std::move (that.value));
         break;
 
-      case 27: // SV_INT
+      case 41: // SV_INT
+      case 68: // sv_sign_int
         value.move< int > (std::move (that.value));
         break;
 
-      case 36: // type_identifier
+      case 51: // type_identifier
         value.move< primitive > (std::move (that.value));
         break;
 
-      case 37: // declare_statement
+      case 52: // declare_statement
         value.move< std::pair<std::string,std::unique_ptr<Exp>> > (std::move (that.value));
         break;
 
-      case 26: // "identifier"
+      case 40: // "identifier"
         value.move< std::string > (std::move (that.value));
         break;
 
-      case 43: // assignment
+      case 59: // assignment
         value.move< std::unique_ptr<AssignmentStatement> > (std::move (that.value));
         break;
 
-      case 46: // expression
+      case 66: // boolean_expression
+        value.move< std::unique_ptr<BooleanExp> > (std::move (that.value));
+        break;
+
+      case 67: // expression
         value.move< std::unique_ptr<Exp> > (std::move (that.value));
         break;
 
-      case 35: // declare_line
+      case 60: // if_then_else
+      case 61: // if_else_if
+        value.move< std::unique_ptr<IfThenElse> > (std::move (that.value));
+        break;
+
+      case 50: // declare_line
         value.move< std::unique_ptr<MultiDeclarationStatement> > (std::move (that.value));
         break;
 
-      case 41: // read_statement
+      case 57: // read_statement
         value.move< std::unique_ptr<ReadStatement> > (std::move (that.value));
         break;
 
-      case 40: // statement
+      case 56: // statement
+      case 62: // else_block
         value.move< std::unique_ptr<StatementLike> > (std::move (that.value));
         break;
 
-      case 33: // declare_block
-      case 34: // declare_line_list
-      case 38: // main_block
-      case 39: // statement_list
+      case 48: // declare_block
+      case 49: // declare_line_list
+      case 53: // main_block
+      case 54: // basic_block
+      case 55: // statement_list
         value.move< std::unique_ptr<StatementList> > (std::move (that.value));
         break;
 
-      case 42: // write_statement
+      case 63: // while_do
+        value.move< std::unique_ptr<WhileDo> > (std::move (that.value));
+        break;
+
+      case 58: // write_statement
         value.move< std::unique_ptr<WriteStatement> > (std::move (that.value));
         break;
 
-      case 45: // expression_list
+      case 65: // expression_list
         value.move< std::vector<std::unique_ptr<Exp>> > (std::move (that.value));
         break;
 
-      case 44: // identifier_list
+      case 64: // identifier_list
         value.move< std::vector<std::unique_ptr<IdentifierExist>> > (std::move (that.value));
         break;
 
@@ -1976,74 +2377,103 @@ switch (yytype)
   {
     switch (this->type_get ())
     {
-      case 47: // alu
+      case 70: // a_b_op
         value.copy< arithmetic_b_op > (YY_MOVE (that.value));
         break;
 
-      case 30: // SV_BOOL
+      case 44: // SV_BOOL
         value.copy< bool > (YY_MOVE (that.value));
         break;
 
-      case 28: // SV_CHAR
+      case 71: // b_a_op
+        value.copy< bool_a_op > (YY_MOVE (that.value));
+        break;
+
+      case 72: // b_b_op
+        value.copy< bool_b_op > (YY_MOVE (that.value));
+        break;
+
+      case 73: // b_u_op
+        value.copy< bool_u_op > (YY_MOVE (that.value));
+        break;
+
+      case 42: // SV_CHAR
         value.copy< char > (YY_MOVE (that.value));
         break;
 
-      case 29: // SV_REAL
+      case 43: // SV_REAL
+      case 69: // sv_sign_real
         value.copy< double > (YY_MOVE (that.value));
         break;
 
-      case 27: // SV_INT
+      case 41: // SV_INT
+      case 68: // sv_sign_int
         value.copy< int > (YY_MOVE (that.value));
         break;
 
-      case 36: // type_identifier
+      case 51: // type_identifier
         value.copy< primitive > (YY_MOVE (that.value));
         break;
 
-      case 37: // declare_statement
+      case 52: // declare_statement
         value.copy< std::pair<std::string,std::unique_ptr<Exp>> > (YY_MOVE (that.value));
         break;
 
-      case 26: // "identifier"
+      case 40: // "identifier"
         value.copy< std::string > (YY_MOVE (that.value));
         break;
 
-      case 43: // assignment
+      case 59: // assignment
         value.copy< std::unique_ptr<AssignmentStatement> > (YY_MOVE (that.value));
         break;
 
-      case 46: // expression
+      case 66: // boolean_expression
+        value.copy< std::unique_ptr<BooleanExp> > (YY_MOVE (that.value));
+        break;
+
+      case 67: // expression
         value.copy< std::unique_ptr<Exp> > (YY_MOVE (that.value));
         break;
 
-      case 35: // declare_line
+      case 60: // if_then_else
+      case 61: // if_else_if
+        value.copy< std::unique_ptr<IfThenElse> > (YY_MOVE (that.value));
+        break;
+
+      case 50: // declare_line
         value.copy< std::unique_ptr<MultiDeclarationStatement> > (YY_MOVE (that.value));
         break;
 
-      case 41: // read_statement
+      case 57: // read_statement
         value.copy< std::unique_ptr<ReadStatement> > (YY_MOVE (that.value));
         break;
 
-      case 40: // statement
+      case 56: // statement
+      case 62: // else_block
         value.copy< std::unique_ptr<StatementLike> > (YY_MOVE (that.value));
         break;
 
-      case 33: // declare_block
-      case 34: // declare_line_list
-      case 38: // main_block
-      case 39: // statement_list
+      case 48: // declare_block
+      case 49: // declare_line_list
+      case 53: // main_block
+      case 54: // basic_block
+      case 55: // statement_list
         value.copy< std::unique_ptr<StatementList> > (YY_MOVE (that.value));
         break;
 
-      case 42: // write_statement
+      case 63: // while_do
+        value.copy< std::unique_ptr<WhileDo> > (YY_MOVE (that.value));
+        break;
+
+      case 58: // write_statement
         value.copy< std::unique_ptr<WriteStatement> > (YY_MOVE (that.value));
         break;
 
-      case 45: // expression_list
+      case 65: // expression_list
         value.copy< std::vector<std::unique_ptr<Exp>> > (YY_MOVE (that.value));
         break;
 
-      case 44: // identifier_list
+      case 64: // identifier_list
         value.copy< std::vector<std::unique_ptr<IdentifierExist>> > (YY_MOVE (that.value));
         break;
 
@@ -2069,74 +2499,103 @@ switch (yytype)
     super_type::move (s);
     switch (this->type_get ())
     {
-      case 47: // alu
+      case 70: // a_b_op
         value.move< arithmetic_b_op > (YY_MOVE (s.value));
         break;
 
-      case 30: // SV_BOOL
+      case 44: // SV_BOOL
         value.move< bool > (YY_MOVE (s.value));
         break;
 
-      case 28: // SV_CHAR
+      case 71: // b_a_op
+        value.move< bool_a_op > (YY_MOVE (s.value));
+        break;
+
+      case 72: // b_b_op
+        value.move< bool_b_op > (YY_MOVE (s.value));
+        break;
+
+      case 73: // b_u_op
+        value.move< bool_u_op > (YY_MOVE (s.value));
+        break;
+
+      case 42: // SV_CHAR
         value.move< char > (YY_MOVE (s.value));
         break;
 
-      case 29: // SV_REAL
+      case 43: // SV_REAL
+      case 69: // sv_sign_real
         value.move< double > (YY_MOVE (s.value));
         break;
 
-      case 27: // SV_INT
+      case 41: // SV_INT
+      case 68: // sv_sign_int
         value.move< int > (YY_MOVE (s.value));
         break;
 
-      case 36: // type_identifier
+      case 51: // type_identifier
         value.move< primitive > (YY_MOVE (s.value));
         break;
 
-      case 37: // declare_statement
+      case 52: // declare_statement
         value.move< std::pair<std::string,std::unique_ptr<Exp>> > (YY_MOVE (s.value));
         break;
 
-      case 26: // "identifier"
+      case 40: // "identifier"
         value.move< std::string > (YY_MOVE (s.value));
         break;
 
-      case 43: // assignment
+      case 59: // assignment
         value.move< std::unique_ptr<AssignmentStatement> > (YY_MOVE (s.value));
         break;
 
-      case 46: // expression
+      case 66: // boolean_expression
+        value.move< std::unique_ptr<BooleanExp> > (YY_MOVE (s.value));
+        break;
+
+      case 67: // expression
         value.move< std::unique_ptr<Exp> > (YY_MOVE (s.value));
         break;
 
-      case 35: // declare_line
+      case 60: // if_then_else
+      case 61: // if_else_if
+        value.move< std::unique_ptr<IfThenElse> > (YY_MOVE (s.value));
+        break;
+
+      case 50: // declare_line
         value.move< std::unique_ptr<MultiDeclarationStatement> > (YY_MOVE (s.value));
         break;
 
-      case 41: // read_statement
+      case 57: // read_statement
         value.move< std::unique_ptr<ReadStatement> > (YY_MOVE (s.value));
         break;
 
-      case 40: // statement
+      case 56: // statement
+      case 62: // else_block
         value.move< std::unique_ptr<StatementLike> > (YY_MOVE (s.value));
         break;
 
-      case 33: // declare_block
-      case 34: // declare_line_list
-      case 38: // main_block
-      case 39: // statement_list
+      case 48: // declare_block
+      case 49: // declare_line_list
+      case 53: // main_block
+      case 54: // basic_block
+      case 55: // statement_list
         value.move< std::unique_ptr<StatementList> > (YY_MOVE (s.value));
         break;
 
-      case 42: // write_statement
+      case 63: // while_do
+        value.move< std::unique_ptr<WhileDo> > (YY_MOVE (s.value));
+        break;
+
+      case 58: // write_statement
         value.move< std::unique_ptr<WriteStatement> > (YY_MOVE (s.value));
         break;
 
-      case 45: // expression_list
+      case 65: // expression_list
         value.move< std::vector<std::unique_ptr<Exp>> > (YY_MOVE (s.value));
         break;
 
-      case 44: // identifier_list
+      case 64: // identifier_list
         value.move< std::vector<std::unique_ptr<IdentifierExist>> > (YY_MOVE (s.value));
         break;
 
@@ -2195,7 +2654,7 @@ switch (yytype)
   }
 
 } // yy
-#line 2199 "/home/deal_with/CLionProjects/cse474/bison.h"
+#line 2658 "/home/deal_with/CLionProjects/cse474/bison.h"
 
 
 

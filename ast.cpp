@@ -201,62 +201,64 @@ void h_ast::BinaryBoolExp::recursive_compile(driver &drv) {
 
 h_ast::BinaryArithmeticBoolExp::BinaryArithmeticBoolExp(
         driver &drv, std::unique_ptr<Exp> left, std::unique_ptr<Exp> right, h_ast::bool_a_op op) :
-        left(std::move(left)), right(std::move(right)), op(op), BooleanExp(drv.get_temp_name()) {
+        _left(std::move(left)), _right(std::move(right)), _op(op), BooleanExp(drv.get_temp_name()) {
     //if one side evaluate to real while the other does not, then do wrap/convert
-    if (left->type == REAL && right->type != REAL) {
-        right = std::make_unique<WrapperExp>(drv, std::move(right), REAL);
-    } else if (left->type != REAL && right->type == REAL) {
-        left = std::make_unique<WrapperExp>(drv, std::move(left), REAL);
+    if (_left->type == REAL && _right->type != REAL) {
+        _right = std::make_unique<WrapperExp>(drv, std::move(_right), REAL);
+    } else if (_left->type != REAL && _right->type == REAL) {
+        _left = std::make_unique<WrapperExp>(drv, std::move(_left), REAL);
     }
 }
 
 void h_ast::BinaryArithmeticBoolExp::logic(driver &drv) {
-    switch (op) {
+    switch (_op) {
         case EQ:
-            drv.output << "equ " << left->name << ", " << right->name << ", " << name << '\n';
+            drv.output << "equ " << _left->name << ", " << _right->name << ", " << name << '\n';
             break;
         case NE:
-            drv.output << "equ " << left->name << ", " << right->name << ", " << name << '\n'
+            drv.output << "equ " << _left->name << ", " << _right->name << ", " << name << '\n'
                        << "not " << name << ", " << name << '\n';
             break;
         case GT:
-            drv.output << "high " << left->name << ", " << right->name << ", " << name << '\n';
+            drv.output << "high " << _left->name << ", " << _right->name << ", " << name << '\n';
             break;
         case LE:
-            drv.output << "high " << left->name << ", " << right->name << ", " << name << '\n'
+            drv.output << "high " << _left->name << ", " << _right->name << ", " << name << '\n'
                        << "not " << name << ", " << name << '\n';
             break;
         case LT:
-            drv.output << "low " << left->name << ", " << right->name << ", " << name << '\n';
+            drv.output << "low " << _left->name << ", " << _right->name << ", " << name << '\n';
             break;
         case GE:
-            drv.output << "low " << left->name << ", " << right->name << ", " << name << '\n'
+            drv.output << "low " << _left->name << ", " << _right->name << ", " << name << '\n'
                        << "not " << name << ", " << name << '\n';
             break;
     }
 }
 
 void h_ast::BinaryArithmeticBoolExp::recursive_declare(driver &drv) {
-    left->recursive_declare(drv);
-    right->recursive_declare(drv);
+    _left->recursive_declare(drv);
+    _right->recursive_declare(drv);
     declare(drv);
 }
 
 void h_ast::BinaryArithmeticBoolExp::recursive_logic(driver &drv) {
-    left->recursive_logic(drv);
-    right->recursive_logic(drv);
+    _left->recursive_logic(drv);
+    _right->recursive_logic(drv);
     logic(drv);
 }
 
 void h_ast::BinaryArithmeticBoolExp::recursive_compile(driver &drv) {
-    left->recursive_compile(drv);
-    right->recursive_compile(drv);
+    _left->recursive_compile(drv);
+    _right->recursive_compile(drv);
     compile(drv);
 }
 
 
 h_ast::UnaryBoolExp::UnaryBoolExp(driver &drv, std::unique_ptr<BooleanExp> exp, h_ast::bool_u_op op) :
-        BooleanExp(drv.get_temp_name()), exp(std::move(exp)), op(op) {}
+        BooleanExp(drv.get_temp_name()), exp(std::move(exp)), op(op) {
+
+}
 
 void h_ast::UnaryBoolExp::logic(driver &drv) {
     drv.output << "not " << name << ", " << name << '\n';
@@ -321,7 +323,9 @@ void h_ast::IdentifierNotExist::recursive_declare(driver &drv) {
 
 void h_ast::IdentifierNotExist::recursive_logic(driver &drv) {}
 
-void h_ast::IdentifierNotExist::recursive_compile(driver &drv) {}
+void h_ast::IdentifierNotExist::recursive_compile(driver &drv) {
+    declare(drv);
+}
 
 
 h_ast::AssignmentStatement::AssignmentStatement(
@@ -492,7 +496,7 @@ void h_ast::IfThenElse::recursive_logic(driver &drv) {
         _case[i].second->recursive_logic(drv);
         drv.output << "jmp " << drv.test_end_prefix << idx << '\n';
     }
-    drv.output << drv.test_start_prefix << _case.size() << '\n';
+    drv.output << drv.test_start_prefix << idx  << '_' << _case.size() << '\n';
     if (_else) {
         _else->recursive_logic(drv);
     }
